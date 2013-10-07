@@ -8,3 +8,6 @@ engine = create_engine('mysql://liveslocal:liveslocal123@localhost/liveslocal')
 Base = declarative_base()
 Base.metadata.bind = engine
 Session = sessionmaker(bind=engine)
+
+# Directory file imports
+from .participant import RParticipant
