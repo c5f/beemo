@@ -29,6 +29,11 @@ class Migration(SchemaMigration):
             ('clinic', self.gf('django.db.models.fields.related.ForeignKey')(related_name='participants', to=orm['app.Clinic'])),
             ('creation_date', self.gf('django.db.models.fields.DateTimeField')()),
             ('birthdate', self.gf('django.db.models.fields.DateField')()),
+            ('fat_goal', self.gf('django.db.models.fields.TextField')()),
+            ('fruit_goal', self.gf('django.db.models.fields.TextField')()),
+            ('veg_goal', self.gf('django.db.models.fields.TextField')()),
+            ('fiber_goal', self.gf('django.db.models.fields.TextField')()),
+            ('step_goal', self.gf('django.db.models.fields.TextField')()),
             ('nc_reason', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal(u'app', ['Participant'])
@@ -40,6 +45,11 @@ class Migration(SchemaMigration):
             ('coach', self.gf('django.db.models.fields.related.ForeignKey')(related_name='calls', to=orm['app.Coach'])),
             ('scheduled_date', self.gf('django.db.models.fields.DateTimeField')()),
             ('completed_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('fat_goal', self.gf('django.db.models.fields.TextField')()),
+            ('fruit_goal', self.gf('django.db.models.fields.TextField')()),
+            ('veg_goal', self.gf('django.db.models.fields.TextField')()),
+            ('fiber_goal', self.gf('django.db.models.fields.TextField')()),
+            ('step_goal', self.gf('django.db.models.fields.TextField')()),
             ('call_note', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal(u'app', ['Call'])
@@ -88,9 +98,14 @@ class Migration(SchemaMigration):
             'call_note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'coach': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'calls'", 'to': u"orm['app.Coach']"}),
             'completed_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'fat_goal': ('django.db.models.fields.TextField', [], {}),
+            'fiber_goal': ('django.db.models.fields.TextField', [], {}),
+            'fruit_goal': ('django.db.models.fields.TextField', [], {}),
             'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
             'participant': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'calls'", 'to': u"orm['app.Participant']"}),
-            'scheduled_date': ('django.db.models.fields.DateTimeField', [], {})
+            'scheduled_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'step_goal': ('django.db.models.fields.TextField', [], {}),
+            'veg_goal': ('django.db.models.fields.TextField', [], {})
         },
         u'app.clinic': {
             'Meta': {'object_name': 'Clinic'},
@@ -108,8 +123,13 @@ class Migration(SchemaMigration):
             'clinic': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'participants'", 'to': u"orm['app.Clinic']"}),
             'coach': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'participants'", 'to': u"orm['app.Coach']"}),
             'creation_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'fat_goal': ('django.db.models.fields.TextField', [], {}),
+            'fiber_goal': ('django.db.models.fields.TextField', [], {}),
+            'fruit_goal': ('django.db.models.fields.TextField', [], {}),
             'id': ('django.db.models.fields.CharField', [], {'max_length': '60', 'primary_key': 'True'}),
-            'nc_reason': ('django.db.models.fields.TextField', [], {'blank': 'True'})
+            'nc_reason': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'step_goal': ('django.db.models.fields.TextField', [], {}),
+            'veg_goal': ('django.db.models.fields.TextField', [], {})
         },
         u'app.participantnote': {
             'Meta': {'object_name': 'ParticipantNote'},

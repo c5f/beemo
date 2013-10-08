@@ -23,7 +23,13 @@ class Participant(models.Model):
     birthdate       = models.DateField()
 
     # Nutrition and fitness goals
+    fat_goal        = models.TextField()
+    fruit_goal        = models.TextField()
+    veg_goal        = models.TextField()
+    fiber_goal        = models.TextField()
+    step_goal        = models.TextField()
 
+    # Non-compliance Reason for reporting
     nc_reason       = models.TextField(blank=True)
 
 
@@ -36,6 +42,11 @@ class Call(models.Model):
     completed_date  = models.DateTimeField()
 
     # Nutrition and fitness goals
+    fat_goal        = models.TextField()
+    fruit_goal        = models.TextField()
+    veg_goal        = models.TextField()
+    fiber_goal        = models.TextField()
+    step_goal        = models.TextField()
 
     call_note       = models.TextField(blank=True)
 
