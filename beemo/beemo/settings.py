@@ -125,7 +125,10 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
+    # Database migration management
     'south',
+
+    # Apps
     'sync',
     'app'
 )
