@@ -10,6 +10,6 @@ class RClinic(Base):
     __table_args__ = ({'autoload': False})
 
     # Column defs (if any)
-    vid     = Column('vid', Integer, prmiary_key=True)
-    id      = Column('field_clinic_number_value', String, unique=True)
-    name    = Column('field_clinic_name_value', String)
+    vid         = Column('vid', Integer, primary_key=True)
+    clinic_id   = Column('field_clinic_number_value', String, unique=True)
+    name        = Column('field_clinic_name_value', String)

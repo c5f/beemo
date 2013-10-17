@@ -10,37 +10,38 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding model 'Coach'
         db.create_table(u'app_coach', (
-            ('id', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
+            ('cid', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=60)),
         ))
         db.send_create_signal(u'app', ['Coach'])
 
         # Adding model 'Clinic'
         db.create_table(u'app_clinic', (
-            ('id', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
+            ('vid', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
+            ('cid', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
         ))
         db.send_create_signal(u'app', ['Clinic'])
 
         # Adding model 'Participant'
         db.create_table(u'app_participant', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=60, primary_key=True)),
-            ('coach', self.gf('django.db.models.fields.related.ForeignKey')(related_name='participants', to=orm['app.Coach'])),
-            ('clinic', self.gf('django.db.models.fields.related.ForeignKey')(related_name='participants', to=orm['app.Clinic'])),
+            ('pid', self.gf('django.db.models.fields.CharField')(max_length=60, primary_key=True)),
+            ('coach', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='participants', null=True, to=orm['app.Coach'])),
+            ('clinic', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='participants', null=True, to=orm['app.Clinic'])),
             ('creation_date', self.gf('django.db.models.fields.DateTimeField')()),
             ('birthdate', self.gf('django.db.models.fields.DateField')()),
-            ('fat_goal', self.gf('django.db.models.fields.TextField')()),
-            ('fruit_goal', self.gf('django.db.models.fields.TextField')()),
-            ('veg_goal', self.gf('django.db.models.fields.TextField')()),
-            ('fiber_goal', self.gf('django.db.models.fields.TextField')()),
-            ('step_goal', self.gf('django.db.models.fields.TextField')()),
-            ('nc_reason', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('fat_goal', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('fruit_goal', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('veg_goal', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('fiber_goal', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('step_goal', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('nc_reason', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'app', ['Participant'])
 
         # Adding model 'Call'
         db.create_table(u'app_call', (
-            ('id', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
+            ('cid', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
             ('participant', self.gf('django.db.models.fields.related.ForeignKey')(related_name='calls', to=orm['app.Participant'])),
             ('coach', self.gf('django.db.models.fields.related.ForeignKey')(related_name='calls', to=orm['app.Coach'])),
             ('scheduled_date', self.gf('django.db.models.fields.DateTimeField')()),
@@ -56,7 +57,7 @@ class Migration(SchemaMigration):
 
         # Adding model 'ParticipantNote'
         db.create_table(u'app_participantnote', (
-            ('id', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
+            ('pid', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
             ('participant', self.gf('django.db.models.fields.related.ForeignKey')(related_name='p_notes', to=orm['app.Participant'])),
             ('coach', self.gf('django.db.models.fields.related.ForeignKey')(related_name='p_notes', to=orm['app.Coach'])),
             ('note', self.gf('django.db.models.fields.TextField')(blank=True)),
@@ -65,7 +66,7 @@ class Migration(SchemaMigration):
 
         # Adding model 'ParticipantProblem'
         db.create_table(u'app_participantproblem', (
-            ('id', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
+            ('pid', self.gf('django.db.models.fields.IntegerField')(primary_key=True)),
             ('participant', self.gf('django.db.models.fields.related.ForeignKey')(related_name='problems', to=orm['app.Participant'])),
             ('problem', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
@@ -96,12 +97,12 @@ class Migration(SchemaMigration):
         u'app.call': {
             'Meta': {'object_name': 'Call'},
             'call_note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'cid': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
             'coach': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'calls'", 'to': u"orm['app.Coach']"}),
             'completed_date': ('django.db.models.fields.DateTimeField', [], {}),
             'fat_goal': ('django.db.models.fields.TextField', [], {}),
             'fiber_goal': ('django.db.models.fields.TextField', [], {}),
             'fruit_goal': ('django.db.models.fields.TextField', [], {}),
-            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
             'participant': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'calls'", 'to': u"orm['app.Participant']"}),
             'scheduled_date': ('django.db.models.fields.DateTimeField', [], {}),
             'step_goal': ('django.db.models.fields.TextField', [], {}),
@@ -109,39 +110,40 @@ class Migration(SchemaMigration):
         },
         u'app.clinic': {
             'Meta': {'object_name': 'Clinic'},
-            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'cid': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'vid': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'})
         },
         u'app.coach': {
             'Meta': {'object_name': 'Coach'},
-            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
+            'cid': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '60'})
         },
         u'app.participant': {
             'Meta': {'object_name': 'Participant'},
             'birthdate': ('django.db.models.fields.DateField', [], {}),
-            'clinic': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'participants'", 'to': u"orm['app.Clinic']"}),
-            'coach': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'participants'", 'to': u"orm['app.Coach']"}),
+            'clinic': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'participants'", 'null': 'True', 'to': u"orm['app.Clinic']"}),
+            'coach': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'participants'", 'null': 'True', 'to': u"orm['app.Coach']"}),
             'creation_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'fat_goal': ('django.db.models.fields.TextField', [], {}),
-            'fiber_goal': ('django.db.models.fields.TextField', [], {}),
-            'fruit_goal': ('django.db.models.fields.TextField', [], {}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '60', 'primary_key': 'True'}),
-            'nc_reason': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'step_goal': ('django.db.models.fields.TextField', [], {}),
-            'veg_goal': ('django.db.models.fields.TextField', [], {})
+            'fat_goal': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'fiber_goal': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'fruit_goal': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'nc_reason': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'pid': ('django.db.models.fields.CharField', [], {'max_length': '60', 'primary_key': 'True'}),
+            'step_goal': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'veg_goal': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
         },
         u'app.participantnote': {
             'Meta': {'object_name': 'ParticipantNote'},
             'coach': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'p_notes'", 'to': u"orm['app.Coach']"}),
-            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
             'note': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'participant': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'p_notes'", 'to': u"orm['app.Participant']"})
+            'participant': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'p_notes'", 'to': u"orm['app.Participant']"}),
+            'pid': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'})
         },
         u'app.participantproblem': {
             'Meta': {'object_name': 'ParticipantProblem'},
-            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
             'participant': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'problems'", 'to': u"orm['app.Participant']"}),
+            'pid': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
             'problem': ('django.db.models.fields.TextField', [], {'blank': 'True'})
         }
     }

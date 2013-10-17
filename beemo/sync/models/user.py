@@ -10,5 +10,5 @@ class RUser(Base):
     __table_args__ = ({'autoload': False})
 
     # Column defs (if any)
-    id      = Column('uid', Integer, primary_key=True)
+    uid     = Column('uid', Integer, primary_key=True)
     name    = Column('name', String, unique=True)

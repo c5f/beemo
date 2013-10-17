@@ -11,3 +11,5 @@ Session = sessionmaker(bind=engine)
 
 # Directory file imports
 from .participant import RParticipant
+from .clinic import RClinic
+from .user import RUser

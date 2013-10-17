@@ -12,11 +12,12 @@ class RParticipant(Base):
     # Column defs (if any)
     vid         = Column('vid', Integer, primary_key=True)
     nid         = Column('nid', Integer)
-    id          = Column('field_participantid_value', String)
+    pid         = Column('field_participantid_value', String)
     coach_id    = Column('field_preferred_coach_uid', Integer)
-    clinic_id   = Column('field_clinic_id_value', Integer)
+    clinic_id   = Column('field_clinic_ref_nid', Integer)
     birthdate   = Column('field_dob_value', String)
-    nc_reason   = Column('field_non_compliance_reason', String)
+    nc_reason   = Column('field_non_compliance_value', String)
+    p_type      = Column('field_type_value', Integer)
 
     # Nutrition goals
     fat_goal    = Column('field_fat_goal_value', String)
