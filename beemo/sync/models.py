@@ -17,6 +17,8 @@ class RNode(Base):
 
     nid = Column('nid', Integer, primary_key=True)
     created = Column('created', DateTime)
+    n_type = Column('type', String)
+    status = Column('status', Integer)
 
 
 class RParticipant(Base):
@@ -27,10 +29,11 @@ class RParticipant(Base):
     vid = Column('vid', Integer, primary_key=True)
     nid = Column('nid', Integer)
     pid = Column('field_participantid_value', String)
-    ptype = Column('field_type_value', Integer)
+    ptype = Column('field_type_value', String)
     fat_grams = Column('field_fat_goal_value', String)
     steps = Column('field_step_goal_value', String)
     mobile = Column('field_sms_number_value', String)
+    email = Column('field_email_email', String)
 
 
 class RCall(Base):

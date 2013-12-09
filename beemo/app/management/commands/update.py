@@ -1,105 +1,140 @@
-import datetime
+import datetime, locale
+locale.setlocale(locale.LC_ALL, 'en_us')
 
-# Django
 from django.core.management.base import BaseCommand
 
-# Models
-from sync.models import Session, RParticipant, RUser, RClinic
-from app.models import Coach, Clinic, Participant, Call, ParticipantNote, ParticipantProblem
+from app.models import Email, Phone, Participant, Call, ParticipantProblem
+
+from sync.models import Session, RNode, RParticipant, RCall, RPhone, RProblem
 
 
-def update_coaches(session):
-    
-    for ruser in session.query(RUser).all():
+def update_participants(session, issue_list):
+
+    for r_participant in session.query(RParticipant).filter_by(ptype=1):
+
+        mobile = None
+
+        if r_participant.mobile:
+            mobile = Phone.objects.get_or_create(number=r_participant.mobile)[0]
+
+        r_node = session.query(RNode).get(r_participant.nid)
+
         try:
-            coach = Coach.objects.get(cid=ruser.uid)
-        except Coach.DoesNotExist:
-            coach = Coach(
-                cid=ruser.uid
-            )
-
-        coach.name = ruser.name
-        coach.save()
-
-    return session.query(RUser).count()
-
-
-def update_clinics(session):
-    
-    for rclinic in session.query(RClinic).all():
-        try:
-            clinic = Clinic.objects.get(vid=rclinic.vid)
-        except Clinic.DoesNotExist:
-            clinic = Clinic(
-                vid=rclinic.vid
-            )
-
-        clinic.cid = rclinic.clinic_id
-        clinic.name = rclinic.name
-        clinic.save()
-
-
-    return session.query(RClinic).count()
-
-
-def update_participants(session):
-
-    for rpart in session.query(RParticipant).filter_by(p_type=1):
-        try:
-            participant = Participant.objects.get(pid=rpart.pid)
+            participant = Participant.objects.get(pid=r_participant.pid)
         except Participant.DoesNotExist:
-            participant = Participant(
-                pid=rpart.pid
-            )
+            participant = Participant(pid=r_participant.pid)
 
-        # Sync fields
-        participant.creation_date = datetime.datetime.now().date() # From node table
-        participant.birthdate = datetime.datetime.now().date() # FROM UNIX TIMESTAMP?!
-
-        participant.fat_goal = rpart.fat_goal
-        participant.fruit_goal = rpart.fruit_goal
-        participant.veg_goal = rpart.veg_goal
-        participant.fiber_goal = rpart.fiber_goal
-        participant.step_goal = rpart.step_goal
-
-        # Sync foreign key references
-        try:
-            participant.coach = Coach.objects.get(cid=rpart.coach_id)
-        except Coach.DoesNotExist:
-            participant.coach = None
+        participant.creation_date = datetime.datetime.fromtimestamp(r_node.created)
+        participant.sms_number = mobile
 
         try:
-            participant.clinic = Clinic.objects.get(vid=rpart.clinic_id)
-        except Clinic.DoesNotExist:
-            participant.clinic = None
+            participant.base_fat_goal = locale.atoi(r_participant.fat_grams)
+        except AttributeError:
+            participant.base_fat_goal = None
+        except ValueError:
+            issue_list.append({
+                'participant_id': participant.pid,
+                'issue': 'ValueError',
+                'field': 'base_fat_goal',
+                'value': r_participant.fat_grams
+            })
+
+            participant.base_fat_goal = None
+
+        try:
+            participant.base_step_goal = locale.atoi(r_participant.steps)
+        except AttributeError:
+            participant.base_step_goal = None
+        except ValueError:
+            issue_list.append({
+                'participant_id': participant.pid,
+                'issue': 'ValueError',
+                'field': 'base_step_goal',
+                'value': r_participant.steps
+            })
+
+            participant.base_step_goal = None
+
+        if mobile:
+            participant.phone_numbers.add(mobile)
 
         participant.save()
-    
-    return session.query(RParticipant).count()
+
+        if r_participant.email:
+            email = Email.objects.get_or_create(email=r_participant.email, participant=participant)[0]
+
+
+def update_phone_numbers(session, issue_list):
+
+    for r_phone in session.query(RPhone).all():
+
+        # Check if this phone belongs to a Participant that beemo is tracking
+        pid = session.query(RParticipant.pid).filter_by(nid=r_phone.nid).first()[0]
+        try:
+            participant = Participant.objects.get(pid=pid)
+
+            # Strip non-digit characters
+            phone_number = ''.join([i for i in r_phone.phone if i.isdigit()])
+
+            # Trim anything beyond 10 digits
+            phone_number = phone_number[:10]
+
+            # Add this phone number to our database
+            phone = Phone.objects.get_or_create(number=phone_number)
+
+            # Add this phone number to this participant
+            participant.phone_numbers.add(phone)
+
+        except Participant.DoesNotExist:
+            # Beemo is not tracking this Participant
+            pass
+
+
+def update_emails(issue_list):
+
+    # Add emails from flat file to corresponding participants
+    pass
+
+
+def update_calls(session, issue_list):
+
+    pass
+
+
+def update_problems(session, issue_list):
+
+    pass
 
 
 class Command(BaseCommand):
     help = "Updates beemo's database from remote database."
 
     def handle(self, *args, **options):
+
+        # Clear existing records
+
+
         session = Session()
+        issue_list = list()
 
-        print 'Updating beemo coach database...'
+        update_participants(session, issue_list)
+        update_phone_numbers(session, issue_list)
+        update_emails(issue_list)
+        update_calls(session, issue_list)
+        update_problems(session, issue_list)
 
-        count = update_coaches(session)
-
-        print 'Finished updating beemo coach database for %d remote user objects.\n' % count
-
-        print 'Updating beemo clinic database...'
-
-        count = update_clinics(session)
-
-        print 'Finished updating beemo clinic database for %d remote clinic objects.\n' % count
-
-        print 'Updating beemo participant database...'
-
-        count = update_participants(session)
-
-        print 'Finished updating beemo participant database for %d remote participant objects.\n' % count
-
+        print issue_list
         session.close()
+
+if __name__ == '__main__':
+    session = Session()
+    issue_list = list()
+
+    update_participants(session, issue_list)
+    update_phone_numbers(session, issue_list)
+    update_emails(issue_list)
+    update_calls(session, issue_list)
+    update_problems(session, issue_list)
+
+    print issue_list
+    session.close()

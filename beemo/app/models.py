@@ -1,67 +1,70 @@
 from django.db import models
 
 
-class Coach(models.Model):
+class Email(models.Model):
 
-    cid     = models.IntegerField(primary_key=True)
-    name    = models.CharField(max_length=60, unique=True)
+    email = models.EmailField(primary_key=True)
+    participant = models.ForeignKey('Participant', related_name='emails')
+
+    class Meta:
+        app_label = 'app'
+        verbose_name = 'Email Address'
+        verbose_name_plural = 'Email Addresses'
 
 
-class Clinic(models.Model):
+class Phone(models.Model):
 
-    vid     = models.IntegerField(primary_key=True)
-    cid     = models.CharField(max_length=255)
-    name    = models.CharField(max_length=255)
+    number = models.CharField(max_length=10, primary_key=True)
 
-    # May need other details per study requirements.
+    class Meta:
+        app_label = 'app'
+        verbose_name = 'Phone Number'
+        verbose_name_plural = 'Phone Numbers'
+
 
 class Participant(models.Model):
 
-    pid             = models.CharField(max_length=60, primary_key=True)
-    coach           = models.ForeignKey('Coach', blank=True, null=True, related_name='participants')
-    clinic          = models.ForeignKey('Clinic', blank=True, null=True, related_name='participants')
-    creation_date   = models.DateTimeField()
-    birthdate       = models.DateField()
+    pid = models.CharField(max_length=60, primary_key=True)
+    creation_date = models.DateField()
+    phone_numbers = models.ManyToManyField(Phone)
+    sms_number = models.ForeignKey(Phone, blank=True, null=True, related_name='sms_participant')
 
-    # Nutrition and fitness goals
-    fat_goal        = models.TextField(blank=True, null=True)
-    fruit_goal      = models.TextField(blank=True, null=True)
-    veg_goal        = models.TextField(blank=True, null=True)
-    fiber_goal      = models.TextField(blank=True, null=True)
-    step_goal       = models.TextField(blank=True, null=True)
+    # Experiment Participant Fields
+    base_fat_goal = models.PositiveIntegerField(blank=True, null=True)
+    base_step_goal = models.PositiveIntegerField(blank=True, null=True)
 
-    # Non-compliance Reason for reporting
-    nc_reason       = models.TextField(blank=True, null=True)
-
+    class Meta:
+        app_label = 'app'
+        verbose_name = u'Participant'
+        verbose_name_plural = u'Participants'
+        
 
 class Call(models.Model):
 
-    cid             = models.IntegerField(primary_key=True)
-    participant     = models.ForeignKey('Participant', related_name='calls')
-    coach           = models.ForeignKey('Coach', related_name='calls')
-    scheduled_date  = models.DateTimeField()
-    completed_date  = models.DateTimeField()
+    number = models.IntegerField()
+    participant = models.ForeignKey(Participant)
+    completed_date = models.DateField()
+    goal_met = models.BooleanField()
 
-    # Nutrition and fitness goals
-    fat_goal        = models.TextField()
-    fruit_goal      = models.TextField()
-    veg_goal        = models.TextField()
-    fiber_goal      = models.TextField()
-    step_goal       = models.TextField()
+    veg_servings = models.PositiveIntegerField()
+    fruit_servings = models.PositiveIntegerField()
+    fiber_grams = models.PositiveIntegerField()
+    fat_grams = models.PositiveIntegerField()
+    steps = models.PositiveIntegerField()
 
-    call_note       = models.TextField(blank=True)
-
-
-class ParticipantNote(models.Model):
-
-    pid         = models.IntegerField(primary_key=True)
-    participant = models.ForeignKey('Participant', related_name='p_notes')
-    coach       = models.ForeignKey('Coach', related_name='p_notes')
-    note        = models.TextField(blank=True)
+    class Meta:
+        app_label = 'app'
+        verbose_name = u'Call'
+        verbose_name_plural = u'Calls'
 
 
 class ParticipantProblem(models.Model):
 
-    pid         = models.IntegerField(primary_key=True)
-    participant = models.ForeignKey('Participant', related_name='problems')
-    problem     = models.TextField(blank=True)
+    participant = models.ForeignKey('Participant')
+    date = models.DateField()
+    problem = models.TextField(blank=True)
+
+    class Meta:
+        app_label = 'app'
+        verbose_name = u'Participant Problem'
+        verbose_name_plural = u'Participant Problems'
