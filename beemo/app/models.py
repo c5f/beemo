@@ -6,6 +6,7 @@ class Email(models.Model):
     email = models.EmailField(primary_key=True)
     participant = models.ForeignKey('Participant', related_name='emails')
 
+
     class Meta:
         app_label = 'app'
         verbose_name = 'Email Address'
@@ -15,6 +16,7 @@ class Email(models.Model):
 class Phone(models.Model):
 
     number = models.CharField(max_length=10, primary_key=True)
+
 
     class Meta:
         app_label = 'app'
@@ -33,10 +35,16 @@ class Participant(models.Model):
     base_fat_goal = models.PositiveIntegerField(blank=True, null=True)
     base_step_goal = models.PositiveIntegerField(blank=True, null=True)
 
-    # Technology Touch Counts
-    email_count = models.PositiveIntegerField(null=True)
-    call_count = models.PositiveIntegerField(null=True)
-    sms_count = models.PositiveIntegerField(null=True)
+    # Technology Touch Details
+    emails_in = models.PositiveIntegerField(null=True)
+    emails_out = models.PositiveIntegerField(null=True)
+
+    calls_in = models.PositiveIntegerField(null=True)
+    calls_out = models.PositiveIntegerField(null=True)
+
+    sms_in = models.PositiveIntegerField(null=True)
+    sms_out = models.PositiveIntegerField(null=True)
+
 
     class Meta:
         app_label = 'app'
@@ -59,6 +67,7 @@ class Call(models.Model):
 
     adherence_score = models.FloatField(null=True)
 
+
     class Meta:
         app_label = 'app'
         verbose_name = u'Call'
@@ -70,6 +79,7 @@ class ParticipantProblem(models.Model):
     participant = models.ForeignKey('Participant')
     date = models.DateField()
     problem = models.TextField(blank=True)
+
 
     class Meta:
         app_label = 'app'
