@@ -8,15 +8,31 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Participant.technology_touches'
-        db.add_column(u'app_participant', 'technology_touches',
+        # Adding field 'Participant.email_count'
+        db.add_column(u'app_participant', 'email_count',
+                      self.gf('django.db.models.fields.PositiveIntegerField')(null=True),
+                      keep_default=False)
+
+        # Adding field 'Participant.call_count'
+        db.add_column(u'app_participant', 'call_count',
+                      self.gf('django.db.models.fields.PositiveIntegerField')(null=True),
+                      keep_default=False)
+
+        # Adding field 'Participant.sms_count'
+        db.add_column(u'app_participant', 'sms_count',
                       self.gf('django.db.models.fields.PositiveIntegerField')(null=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'Participant.technology_touches'
-        db.delete_column(u'app_participant', 'technology_touches')
+        # Deleting field 'Participant.email_count'
+        db.delete_column(u'app_participant', 'email_count')
+
+        # Deleting field 'Participant.call_count'
+        db.delete_column(u'app_participant', 'call_count')
+
+        # Deleting field 'Participant.sms_count'
+        db.delete_column(u'app_participant', 'sms_count')
 
 
     models = {
@@ -43,11 +59,13 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Participant'},
             'base_fat_goal': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'base_step_goal': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'call_count': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
             'creation_date': ('django.db.models.fields.DateField', [], {}),
+            'email_count': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
             'phone_numbers': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['app.Phone']", 'symmetrical': 'False'}),
             'pid': ('django.db.models.fields.CharField', [], {'max_length': '60', 'primary_key': 'True'}),
-            'sms_number': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'sms_participant'", 'null': 'True', 'to': "orm['app.Phone']"}),
-            'technology_touches': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'})
+            'sms_count': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
+            'sms_number': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'sms_participant'", 'null': 'True', 'to': "orm['app.Phone']"})
         },
         'app.participantproblem': {
             'Meta': {'object_name': 'ParticipantProblem'},

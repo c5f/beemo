@@ -33,7 +33,10 @@ class Participant(models.Model):
     base_fat_goal = models.PositiveIntegerField(blank=True, null=True)
     base_step_goal = models.PositiveIntegerField(blank=True, null=True)
 
-    technology_touches = models.PositiveIntegerField(null=True)
+    # Technology Touch Counts
+    email_count = models.PositiveIntegerField(null=True)
+    call_count = models.PositiveIntegerField(null=True)
+    sms_count = models.PositiveIntegerField(null=True)
 
     class Meta:
         app_label = 'app'
