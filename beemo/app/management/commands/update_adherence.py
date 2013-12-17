@@ -115,7 +115,7 @@ def update_adherence_scores():
 
 
 class Command(BaseCommand):
-    help = "Calculates call adherence scores and participant technology touch counts."
+    help = "Calculates and updates call adherence scores."
 
     def handle(self, *args, **options):
         
