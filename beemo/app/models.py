@@ -42,17 +42,17 @@ class Participant(models.Model):
 class Call(models.Model):
 
     number = models.IntegerField()
-    participant = models.ForeignKey(Participant)
+    participant = models.ForeignKey(Participant, related_name='calls')
     completed_date = models.DateField()
     goal_met = models.BooleanField()
 
-    veg_servings = models.PositiveIntegerField()
-    fruit_servings = models.PositiveIntegerField()
-    fiber_grams = models.PositiveIntegerField()
-    fat_grams = models.PositiveIntegerField()
-    steps = models.PositiveIntegerField()
+    veg_servings = models.PositiveIntegerField(null=True)
+    fruit_servings = models.PositiveIntegerField(null=True)
+    fiber_grams = models.PositiveIntegerField(null=True)
+    fat_grams = models.PositiveIntegerField(null=True)
+    steps = models.PositiveIntegerField(null=True)
 
-    adherence_score = models.IntegerField(null=True)
+    adherence_score = models.FloatField(null=True)
 
     class Meta:
         app_label = 'app'
