@@ -1,10 +1,8 @@
-from libfso.contrib.locus.models import Building, Room
-
 # Import Models
 from app.models import Call, Participant
 
 # Import Serializers
-from app.serializers import CallSerializer, ParticipantSerializer
+from api.serializers import CallSerializer, ParticipantSerializer
 
 from rest_framework import generics
 from rest_framework import filters
