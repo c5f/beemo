@@ -313,17 +313,3 @@ class Command(BaseCommand):
                 dw.writerow(row)
 
         session.close()
-
-if __name__ == '__main__':
-    session = Session()
-    issue_list = list()
-
-    update_participants(session, issue_list)
-    update_phone_numbers(session, issue_list)
-    update_emails(issue_list)
-    update_calls(session, issue_list)
-    update_problems(session, issue_list)
-
-    pp = pprint.PrettyPrinter(indent=2)
-    pp.pprint(issue_list)
-    session.close()
