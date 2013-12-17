@@ -52,6 +52,8 @@ class Call(models.Model):
     fat_grams = models.PositiveIntegerField()
     steps = models.PositiveIntegerField()
 
+    adherence_score = models.IntegerField(null=True)
+
     class Meta:
         app_label = 'app'
         verbose_name = u'Call'
