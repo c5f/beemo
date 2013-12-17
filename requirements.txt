@@ -1,8 +1,13 @@
 Django==1.5.4
+IMAPClient==0.10.2
 MySQL-python==1.2.4
 SQLAlchemy==0.8.2
 South==0.8.2
 django-filter==0.7
 djangorestframework==2.3.10
+httplib2==0.8
 ipython==1.1.0
+six==1.4.1
+twilio==3.6.4
+unittest2==0.5.1
 wsgiref==0.1.2
