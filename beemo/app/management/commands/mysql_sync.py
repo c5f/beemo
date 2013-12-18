@@ -74,7 +74,7 @@ def update_participants(session, issue_list):
         participant.save()
 
         if r_participant.email:
-            email = Email.objects.get_or_create(email=r_participant.email, participant=participant)[0]
+            email = Email.objects.get_or_create(email=r_participant.email.strip(), participant=participant)[0]
 
 
 def update_phone_numbers(session, issue_list):
@@ -102,9 +102,27 @@ def update_phone_numbers(session, issue_list):
 
 
 def update_emails(issue_list):
+    
+    with open('emails.txt', 'r') as email_list:
+    
+        for line in email_list:
+    
+            parts = str.split(line, ':')
 
-    # Add emails from flat file to corresponding participants
-    pass
+            if len(parts) == 2:
+      
+                try:
+                    participant = Participant.objects.get(pid=parts[0])
+
+                    Email.objects.get_or_create(email=parts[1].strip(), participant=participant)
+                except Participant.DoesNotExist:
+
+                    issue_list.append({
+                        'participant': parts[0],
+                        'call_num': 'Error in email list',
+                        'reason': 'Invalid Participant ID in email list',
+                        'field': 'participant id'
+                    })
 
 
 def massage_number(fieldname, input_string):
