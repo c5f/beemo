@@ -68,7 +68,7 @@ def update_sms_counts(participant):
         params={'To': sms_number}
     ).json()
 
-    participant.sms_in = response['total']
+    sms_in = response['total']
 
     payload = {'From': sms_number}
     response = requests.get(
@@ -77,7 +77,10 @@ def update_sms_counts(participant):
         params={'From': sms_number}
     ).json()
 
-    participant.sms_out = response['total']
+    sms_out = response['total']
+
+    participant.sms_in = sms_in
+    participant.sms_out = sms_out
     participant.save()
 
 
