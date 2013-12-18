@@ -45,6 +45,17 @@ class Participant(models.Model):
     sms_in = models.PositiveIntegerField(null=True)
     sms_out = models.PositiveIntegerField(null=True)
 
+    @property
+    def tt_in(self):
+        return self.emails_in + self.calls_in + self.sms_in
+
+    @property
+    def tt_out(self):
+        return self.emails_in + self.calls_in + self.sms_in
+
+    @property
+    def technology_touches(self):
+        return self.tt_in + self.tt_out
 
     class Meta:
         app_label = 'app'
