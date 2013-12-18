@@ -74,7 +74,7 @@ def update_participants(session, issue_list):
         participant.save()
 
         if r_participant.email:
-            email = Email.objects.get_or_create(email=r_participant.email, participant=participant)[0]
+            email = Email.objects.get_or_create(email=r_participant.email.strip(), participant=participant)[0]
 
 
 def update_phone_numbers(session, issue_list):
