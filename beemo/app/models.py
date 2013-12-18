@@ -36,14 +36,14 @@ class Participant(models.Model):
     base_step_goal = models.PositiveIntegerField(blank=True, null=True)
 
     # Technology Touch Details
-    emails_in = models.PositiveIntegerField(null=True)
-    emails_out = models.PositiveIntegerField(null=True)
+    emails_in = models.PositiveIntegerField(null=True, default=0)
+    emails_out = models.PositiveIntegerField(null=True, default=0)
 
-    calls_in = models.PositiveIntegerField(null=True)
-    calls_out = models.PositiveIntegerField(null=True)
+    calls_in = models.PositiveIntegerField(null=True, default=0)
+    calls_out = models.PositiveIntegerField(null=True, default=0)
 
-    sms_in = models.PositiveIntegerField(null=True)
-    sms_out = models.PositiveIntegerField(null=True)
+    sms_in = models.PositiveIntegerField(null=True, default=0)
+    sms_out = models.PositiveIntegerField(null=True, default=0)
 
     @property
     def tt_in(self):
