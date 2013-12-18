@@ -1,5 +1,19 @@
 import os
 
+
+
+# Twilio API information
+TWILIO_INFO = {
+    'sid': os.environ.get('TWILIO_ACCOUNT_SID', 'TWILIO_ACCOUNT_SID'),
+    'token': os.environ.get('TWILIO_AUTH_TOKEN', 'TWILIO_AUTH_TOKEN')
+}
+
+# Gmail IMAP information
+GMAIL_INFO = {
+    'user': os.environ.get('GMAIL_USERNAME', 'GMAIL_USERNAME'),
+    'pass': os.environ.get('GMAIL_PASSWORD', 'GMAIL_PASSWORD')
+}
+
 # Django settings for beemo project.
 
 DEBUG = True

@@ -1,16 +1,23 @@
 import requests
+from imapclient import IMAPClient
 
 from django.core.management.base import BaseCommand
 
-from beemo.settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
+from beemo.settings import GMAIL_INFO, TWILIO_INFO
 from app.models import Participant
 
 twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/' % TWILIO_ACCOUNT_SID
-twilio_auth = (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+twilio_auth = (TWILIO_INFO['sid'], TWILIO_INFO['token'])
 
 
 def update_email_counts(participant):
-    pass
+    gmail = IMAPClient(
+        'imap.gmail.com',
+        use_uid=True,
+        ssl=True
+    )
+
+    gmail.login(GMAIL_INFO['user'], GMAIL_INFO['pass'])
 
 
 def update_call_counts(participant):
