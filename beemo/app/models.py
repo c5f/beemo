@@ -51,7 +51,7 @@ class Participant(models.Model):
 
     @property
     def tt_out(self):
-        return self.emails_in + self.calls_in + self.sms_in
+        return self.emails_out + self.calls_out + self.sms_out
 
     @property
     def technology_touches(self):
