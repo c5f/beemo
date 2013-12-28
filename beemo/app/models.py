@@ -146,7 +146,7 @@ def calculate_fiber_grams_score(value):
 
 def calculate_fat_grams_score(value, goal_value):
     
-    percentage = value / goal_value
+    percentage = value / float(goal_value)
 
     if percentage < 1.1:
         return 5
@@ -178,7 +178,7 @@ def calculate_steps_score(value, goal_value):
         return 0
 
 
-def update_adherence_score(participant, call):
+def calculate_adherence_score(participant, call):
 
     # Only calculate if all fields are present
     if (call.fat_grams and 
@@ -189,7 +189,7 @@ def update_adherence_score(participant, call):
         participant.base_fat_goal and 
         participant.base_step_goal):
 
-        call.adherence_score = (
+        return (
             calculate_veg_servings_score(call.veg_servings) +
             calculate_fruit_servings_score(call.fruit_servings) +
             calculate_fiber_grams_score(call.fiber_grams) +
@@ -198,6 +198,4 @@ def update_adherence_score(participant, call):
         ) / 5.0
 
     else:
-        call.adherence_score = None
-
-    call.save()
+        return None
