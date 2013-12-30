@@ -11,6 +11,14 @@ class ParticipantTestCase(TestCase):
     def setUpClass(cls):
         cls.participant = mock.Mock(spec=Participant)
 
+        cls.emails_in = 1
+        cls.calls_in = 3
+        cls.sms_in = 5
+
+        cls.emails_out = 7
+        cls.calls_out = 9
+        cls.sms_out = 11
+
 
 class Class(ParticipantTestCase):
 
@@ -19,17 +27,6 @@ class Class(ParticipantTestCase):
 
 
 class TechnologyTouchesProperties(ParticipantTestCase):
-
-    def setUp(self):
-        self.participant = Participant(
-            emails_in = 1,
-            calls_in = 3,
-            sms_in = 5,
-
-            emails_out = 7,
-            calls_out = 9,
-            sms_out = 11
-        )
 
     def test_should_sum_inbound_values_properly(self):
         self.assertEqual(self.participant.tt_in, 
