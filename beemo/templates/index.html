@@ -6,8 +6,103 @@
     <script src="{{ STATIC_URL }}js/beemo.js" charset="utf-8"></script>
 
     <link rel="stylesheet" href="{{ STATIC_URL }}css/beemo.css">
+<<<<<<< HEAD
+=======
+
+    <title>Beemo</title>
+>>>>>>> added static files
 </head>
 <body>
-    <h1>Hello World.</h1>    
+
+    <!-- Navigation -->
+    <nav><div class="wrapper">
+        <ul>
+        <!-- Menu templating -->
+        {% if menu_items %}
+        {% for item in menu_items %}
+            <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+        {% endfor %}
+        {% else %}
+            <!-- Placeholder menu for styling -->
+            <li><a href="#">no</a></li>
+            <li><a href="#">menu</a></li>
+            <li><a href="#">in</a></li>
+            <li><a href="#">django</a></li>
+            <li><a href="#">context</a></li>
+        {% endif %}
+        </ul>
+    </div></nav>
+
+    <div class="clearfix"></div>
+
+    <!-- Main -->
+    <section class="main">
+
+        <header>Be<strong>[<span class="the-extra-e">e</span>]</strong>mo</header>
+
+        <ul class="dashboard-items">
+        <!-- Dashboard item templating -->
+        {% if dashboard_items %}
+        {% for item in dashboard_items %}
+            <li>
+                <article class="{{ item.type }} {{ item.width }}">
+                    <span class="article-title">{{ item.title }}</span>
+
+                    {{ item.content }}
+                </article>
+            </li>
+        {% endfor %}
+        {% else %}
+            <!-- Placeholder dashboard for styling -->
+            <li>
+                <article class="text-article fullwidth">
+                    <span class="article-title">Sample Fullwidth Text</span>
+
+                    <p>Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends. </p>
+
+                    <p>You see? It's curious. Ted did figure it out - time travel. And when we get back, we gonna tell everyone. How it's possible, how it's done, what the dangers are. But then why fifty years in the future when the spacecraft encounters a black hole does the computer call it an 'unknown entry event'? Why don't they know? If they don't know, that means we never told anyone. And if we never told anyone it means we never made it back. Hence we die down here. Just as a matter of deductive logic. </p>
+
+                    <p>Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb. </p>
+
+                    <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass.</p>
+
+                    <p>Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows. Some pilots get picked and become television programs. Some don't, become nothing. She starred in one of the ones that became nothing. </p>
+                </article>
+            </li>
+
+            <li>
+                <article class="text-article halfwidth">
+                    <span class="article-title">Sample Halfwidth Text</span>
+    
+                    <p>Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends. </p>
+
+                    <p>You see? It's curious. Ted did figure it out - time travel. And when we get back, we gonna tell everyone. How it's possible, how it's done, what the dangers are. But then why fifty years in the future when the spacecraft encounters a black hole does the computer call it an 'unknown entry event'? Why don't they know? If they don't know, that means we never told anyone. And if we never told anyone it means we never made it back. Hence we die down here. Just as a matter of deductive logic. </p>
+
+                    <p>Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb. </p>
+                </article>
+
+                <article class="d3-line-graph halfwidth">
+                    <span class="article-title">Sample Halfwidth Graph</span>                
+
+                    <p>A graph would be here.</p>
+                </article>
+            </li>
+
+            <li>
+                <article class="d3-line-graph fullwidth">
+                    <span class="article-title">Sample Fullwidth Graph</span>
+
+                    <p>A graph would be here.</p>
+                </article>
+            </li>
+        {% endif %}    
+        </ul>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy;2013 Colin Scott-Fleming</p>
+    </footer>
 </body>
 </html>
