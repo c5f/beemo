@@ -38,8 +38,9 @@
     <!-- Main -->
     <section class="main">
 
-        <header>Be<strong>[<span class="the-extra-e">e</span>]</strong>mo</header>
+        <header><a href='/'>Be<strong>[<span class="the-extra-e">e</span>]</strong>mo</a></header>
 
+        {% block content %}
         <ul class="dashboard-items">
         <!-- Dashboard item templating -->
         {% if dashboard_items %}
@@ -48,7 +49,11 @@
                 <article class="{{ item.type }} {{ item.width }}">
                     <span class="article-title">{{ item.title }}</span>
 
+                {% if item.content %}
                     {{ item.content }}
+                {% else %}
+                    <p>No item content passed for this item in context</p>
+                {% endif %}
                 </article>
             </li>
         {% endfor %}
@@ -97,6 +102,7 @@
             </li>
         {% endif %}    
         </ul>
+        {% endblock %}
 
     </section>
 
