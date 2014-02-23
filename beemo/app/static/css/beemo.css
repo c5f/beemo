@@ -66,7 +66,7 @@
             }
 
             header strong {
-                bottom: 2.2pt;
+                bottom: 1.2pt;
 
                 position: relative;
             }
@@ -75,7 +75,7 @@
                 height: 100%;
                 width: 100%;
 
-                bottom: -2.2pt;
+                bottom: -1.2pt;
 
                 position: relative;
             }

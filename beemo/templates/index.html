@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Import D3 -->
+    <!-- Import jQuery, D3, and app JavaScript -->
+    <script src="{{ STATIC_URL }}js/jquery-2.1.0.min.js" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/d3.v3.js" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/beemo.js" charset="utf-8"></script>
 
@@ -48,12 +49,13 @@
             <li>
                 <article class="{{ item.type }} {{ item.width }}">
                     <span class="article-title">{{ item.title }}</span>
-
-                {% if item.content %}
-                    {{ item.content }}
-                {% else %}
-                    <p>No item content passed for this item in context</p>
-                {% endif %}
+                    <div class="article-content">
+                        {% if item.content %}
+                            {{ item.content }}
+                        {% else %}
+                            <p>No item content passed for this item in context</p>
+                        {% endif %}    
+                    </div>
                 </article>
             </li>
         {% endfor %}
