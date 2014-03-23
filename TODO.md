@@ -12,7 +12,9 @@ beemo
     * install Restangular
     * configure pagination
     * add data to scope
+        * render with D3
         
+## Restangular
 ```javascript
 // Restangular setup
 Restangular.setBaseUrl("/appname/api/");
@@ -22,8 +24,7 @@ Restangular.setRequestSuffix("/");
 $scope.participants = Restangular.all("participant");
 ```
 
-    * render with D3
-        
+## D3 examples        
 ```javascript
 // get the container
 var graph = d3.select(".container-class");
