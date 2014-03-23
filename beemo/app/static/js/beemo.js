@@ -1,4 +1,11 @@
 
+// Override default Angular template tags:
+var beemo = angular.module("Beemo", []).config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('{$');
+    $interpolateProvider.endSymbol('$}');
+});
+
+
 var calls = [];
 
 

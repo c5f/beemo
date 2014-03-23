@@ -13,6 +13,7 @@ beemo
     * configure pagination
     * add data to scope
         * render with D3
+        * controller per graph
         
 ## Restangular
 ```javascript
