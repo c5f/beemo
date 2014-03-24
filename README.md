@@ -24,3 +24,5 @@ Beemo relies heavily on several frameworks and package managers, but the system 
 # \__\___/_|_|_|_|_||_\__, | /__/\___/\___/_||_(_|_|_)
 #                     |___/
 ```
+
+built with [yeoman](http://yeoman.io/)

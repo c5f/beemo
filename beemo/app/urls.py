@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
 
-from app import views
 
 urlpatterns = patterns('',
 
-    url(r'^$', views.BeemoIndex.as_view(), name='beemo'),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
 
 )
