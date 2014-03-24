@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('beemoApp', [
-  'ngRoute'
+  'ngRoute',
+  'restangular',
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, RestangularProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'static/views/main.html',
@@ -12,4 +13,6 @@ angular.module('beemoApp', [
       .otherwise({
         redirectTo: '/static/'
       });
+
+    RestangularProvider.setBaseUrl('/api/');
   });
