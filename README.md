@@ -25,4 +25,24 @@ Beemo relies heavily on several frameworks and package managers, but the system 
 #                     |___/
 ```
 
-built with [yeoman](http://yeoman.io/)
+## Setup
+
+Coming soon...
+
+## Running the Webserver
+
+Because Beemo was built with [yeoman](http://yeoman.io/), staticfiles need to be compiled and moved where Django will recognize them before the webserver can be run.
+
+```shell
+# Run collectstatic to pull all staticfiles from the app directories into Django's staticfile location.
+~/beemo $ python manage.py collectstatic
+
+...
+
+# Run the webserver
+# Development
+~/beemo $ python manage.py runserver
+
+# Production
+$ sudo service nginx restart
+```
