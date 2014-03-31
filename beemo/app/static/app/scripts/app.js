@@ -7,7 +7,8 @@ var app = angular.module('beemoApp', ['ngRoute', 'restangular',]).
     $routeProvider.
 
     // Route provider URL path directives
-    when('/', {controller:'MainCtrl', templateUrl: 'static/views/main.html'}).
+    when('/', {redirectTo: '/dashboard'}).
+    when('/dashboard', {controller:'DashboardCtrl', templateUrl: 'static/views/dashboard.html'}).
 
     // Static redirect for bower components
     otherwise({redirectTo: '/static/'});
