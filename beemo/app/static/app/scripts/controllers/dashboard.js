@@ -1,11 +1,15 @@
 'use strict';
 
 // Dashboard controller for the Beemo current call snapshot dashboard.
-app.controller('DashboardCtrl', function ($scope, Restangular) {
+angular.module('beemoApp.controllers').
+    controller('DashboardCtrl', function ($scope, Restangular) {
 
-    // Setup
-    Restangular.setBaseUrl('/api/');
-    $scope.dashboardCalls = []
+        // TODO: Remove this binding
+        window.scope = $scope
 
-    $scope.dashboardCalls = Restangular.all('calls').getList().$object;
-});
+        // Setup
+        Restangular.setBaseUrl('/api/');
+        $scope.dashboardCalls = []
+
+        $scope.dashboardCalls = Restangular.all('calls').getList().$object;
+    });
