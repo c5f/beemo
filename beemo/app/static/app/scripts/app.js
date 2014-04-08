@@ -1,6 +1,12 @@
 'use strict';
 
-var app = angular.module('beemoApp', ['d3', 'ngRoute', 'restangular',]).
+var app = angular.module('beemoApp', [
+    'd3', 
+    'ngRoute', 
+    'restangular', 
+    'beemoApp.controllers', 
+    'beemoApp.directives'
+]).
 
     // Route provider config
     config(['$routeProvider', function($routeProvider) {
