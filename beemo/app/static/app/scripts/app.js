@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('beemoApp', ['ngRoute', 'restangular',]).
+var app = angular.module('beemoApp', ['d3', 'ngRoute', 'restangular',]).
 
   // Route provider config
   config(['$routeProvider', function($routeProvider) {
@@ -32,3 +32,8 @@ var app = angular.module('beemoApp', ['ngRoute', 'restangular',]).
     });
 
   });
+
+// Setup dependency injection
+angular.module('d3', []);
+angular.module('beemoApp.controllers', []);
+angular.module('beemoApp.directives', ['d3',]);
