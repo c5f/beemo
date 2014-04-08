@@ -1,21 +1,22 @@
 'use strict';
 
-app.controller('MainCtrl', function ($scope, Restangular) {
+angular.module('beemoApp.controllers').
+    controller('MainCtrl', function ($scope, Restangular) {
 
-    window.scope = $scope;
+        window.scope = $scope;
 
-    Restangular.setBaseUrl('/api/');
+        Restangular.setBaseUrl('/api/');
 
-    // A list of the calls
-    $scope.calls = [];
+        // A list of the calls
+        $scope.calls = [];
 
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+        $scope.awesomeThings = [
+          'HTML5 Boilerplate',
+          'AngularJS',
+          'Karma'
+        ];
 
-    $scope.calls = Restangular.all('calls').getList();
+        $scope.calls = Restangular.all('calls').getList();
 
-    console.log();
-  });
+        console.log();
+    });
