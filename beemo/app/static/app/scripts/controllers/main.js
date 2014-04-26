@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('beemoApp.controllers').
-    controller('MainCtrl', function ($scope, Restangular) {
+app.controller('MainCtrl', function ($scope, Restangular) {
 
         window.scope = $scope;
 
