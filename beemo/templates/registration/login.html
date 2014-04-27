@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+<div>
+    <h1><span class="glyphicon glyphicon-log-in"></span> Beemo</h3>
+
+    <br>
+
+    <form role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    {% csrf_token %}
+        <div class="input-group input-group">
+            <span class="input-group-addon glyphicon glyphicon-user"></span>
+            <input type="text" name="username" class="form-control" placeholder="username" maxlength="254">
+        </div>
+
+        <br>
+
+        <div class="input-group input-group">
+            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+            <input type="password" class="form-control" name="password" maxlength="4096" placeholder="password">
+        </div>
+
+        <br>
+
+        <input class="btn btn-default btn-lg" type="submit" value="login"`>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+</div>
+    
+
+{% endblock %}
