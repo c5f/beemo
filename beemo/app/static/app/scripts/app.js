@@ -2,6 +2,8 @@
 
 var app = angular.module('beemoApp', [
     'ngRoute', 
+    'restangular',
+    'nvd3ChartDirectives'
 ]).
 
     // Route provider config
