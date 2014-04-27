@@ -6,4 +6,14 @@
 
         <p class="text-muted">there are {{ dashboardCalls.length }} calls in the scope</p>
     </div>
+
+    <nvd3-discrete-bar-chart
+    data="dashboardData"
+    objectequality="true"
+    id="dashboardChart"
+    showXAxis="false"
+    showYAxis="true"
+    height="600">
+        <svg></svg>
+    </nvd3-discrete-bar-chart>
 </div>
