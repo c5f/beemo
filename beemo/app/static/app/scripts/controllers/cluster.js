@@ -208,14 +208,47 @@ app.service('KMeansAnalysisService', function ($log) {
         }
     };
 
+    // Finds scales based on ranges.
+    var updateScales = function () {
+        var xMin, xMax, yMin, yMax, xVals, yVals, xRng, yRng;
+
+        // Reset scales
+        xScale = 1;
+        yScale = 1;
+
+        // Generate value lists
+        var xVals = elements.map(function (element) {
+            return element.location.x;
+        });
+
+        var yVals = elements.map(function (element) {
+            return element.location.y;
+        })
+
+        // Find min/max/range
+        xMin = Math.min.apply(Math, xVals);
+        xMax = Math.max.apply(Math, xVals);
+        yMin = Math.min.apply(Math, yVals);
+        yMax = Math.max.apply(Math, yVals);
+        xRng = xMax - xMin;
+        yRng = yMax - yMin;
+
+        // Always scale up
+        if (xRng > yRng) {
+            yScale = xRng / yRng;
+        } else {
+            xScale = yRng / xRng;
+        }
+    }
+
     // Analysis function
     this.analyze = function (data, callback) {
 
         elements = buildElementList(data.callData, data.xAttrib.value, data.yAttrib.value);
         clusters = buildClusterList(data.kNumber);
 
+        updateScales();
         seedClusters();
-        // TODO: Add scaling.
 
         // Sentinel flag
         var finished = false;
