@@ -180,6 +180,34 @@ app.service('KMeansAnalysisService', function ($log) {
         return closestCluster;
     };
 
+    // Seeds the clusters with initial data
+    var seedClusters = function () {
+        var kNumber = clusters.length;
+
+        if (kNumber > 0) {
+
+            // Special case if we have fewer elements than clusters
+            if (elements.length < kNumber) {
+                // Just seed with what we have
+                elements.forEach(function (element, index) {
+                    clusters[index].addElement(element);
+                });
+            } else {
+                // Add one element to each cluster
+                clusters.forEach(function (cluster, index) {
+                    cluster.addElement(elements[index]);
+                });
+
+                // Then add every other element to its closest cluster
+                elements.forEach(function (element, index) {
+                    if (element.cluster === null) {
+                        findClosestCluster(element).addElement(element);
+                    }
+                });
+            }
+        }
+    };
+
     // Analysis function
     this.analyze = function (data, callback) {
 
