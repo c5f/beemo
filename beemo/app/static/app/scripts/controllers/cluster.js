@@ -9,7 +9,7 @@ app.service('DataService', function ($http, $log) {
         if (filters === undefined || filters.length == 0) {
             // If no filters were provided, take the first 200 calls
             calls = calls.slice(0, 200);
-            $log.debug('Taking first 200 calls.');
+            $log.debug('Taking first 200 calls. No filters yet.');
         } else {
             // TODO: Implement filters
             $log.error('Somehow got into the unimplemented filterCalls else block...\nfilters:' + filters);
@@ -240,8 +240,6 @@ app.service('KMeansAnalysisService', function ($log) {
                 }
             });
         }
-
-        $log.debug(clusters);
 
         callback(clusters);
     }
