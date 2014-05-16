@@ -1,0 +1,44 @@
+
+<div class="container">
+    <h1>Generic Graph Example</h1>
+    
+    <div class="input-group">
+        <span class="input-group-addon">x-attribute</span>
+        <select name="x-attrib" class="form-control" ng-model="graphData.xAttrib" ng-options="attribute.name for attribute in schema">
+        </select>    
+    </div>
+    
+    <br>
+    
+    <div class="input-group">
+        <span class="input-group-addon">y-attribute</span>
+        <select name="y-attrib" class="form-control" ng-model="graphData.yAttrib" ng-options="attribute.name for attribute in schema">
+        </select>
+    </div>
+    
+    <br>
+
+    <div class="input-group">
+        <span class="input-group-addon">k-number</span>
+        <input type="text" ng-model="graphData.kNumber">
+    </div>
+    
+    <br>
+
+    <div class="btn btn-primary" ng-click="analyzeClicked();" ng-disabled="graphData.callData.length == 0">Analyze!</div>
+
+    <div id="generic-graph-container">
+        <nvd3-scatter-chart
+            data="graphData.graphData"
+            class="generic-graph"
+            id="genericGraph"
+            width="900"
+            height="900"
+            x="graphData.xFunction()"
+            y="graphData.yFunction()"
+            showlegend="true"
+            interactive="true">
+            <svg></svg>
+        </nvd3-scatter-chart>
+    </div>
+</div>
