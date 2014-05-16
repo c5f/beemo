@@ -1,3 +1,19 @@
+import os
+
+
+
+# Twilio API information
+TWILIO_INFO = {
+    'sid': os.environ.get('TWILIO_ACCOUNT_SID', 'TWILIO_ACCOUNT_SID'),
+    'token': os.environ.get('TWILIO_AUTH_TOKEN', 'TWILIO_AUTH_TOKEN')
+}
+
+# Gmail IMAP information
+GMAIL_INFO = {
+    'user': os.environ.get('GMAIL_USERNAME', 'GMAIL_USERNAME'),
+    'pass': os.environ.get('GMAIL_PASSWORD', 'GMAIL_PASSWORD')
+}
+
 # Django settings for beemo project.
 
 DEBUG = True
@@ -29,7 +45,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Phoenix'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -61,7 +77,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.getcwd() + '/static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -72,6 +88,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.getcwd() + '/static/app/',
 )
 
 # List of finder classes that know how to find static files in
@@ -92,6 +109,17 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+# A tuple of callables that are used to populate the context in RequestContext.
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages'
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -110,7 +138,8 @@ WSGI_APPLICATION = 'beemo.wsgi.application'
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.getcwd() + '/app/static/app',
+    os.getcwd() + '/templates',
 )
 
 INSTALLED_APPS = (
@@ -121,9 +150,19 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
+
+    # Database migration management
+    'south',
+
+    # Apps
+    'django_filters',
+    'rest_framework',
+    'sync',
+    'app',
+    'api'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

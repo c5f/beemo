@@ -1,2 +1,4 @@
 *.pyc
 *.sqlite
+import.txt
+issues.csv
