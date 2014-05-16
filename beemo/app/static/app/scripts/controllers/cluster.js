@@ -152,16 +152,13 @@ app.service('KMeansAnalysisService', function ($log) {
     };
 
     // Builds the list of Clusters from the k-number and a list of Elements
-    var buildClusterList = function (kNumber, newElements) {
+    var buildClusterList = function (kNumber) {
 
         var newClusters = [];
 
         for (var i = 0; i < kNumber; ++i) {
             // Create a new Cluster
             newClusters.push(new Cluster());
-
-            // There are many ways to seed the cluster list, but this requires the least extra logic.
-            if (i < newElements.length) newClusters[i].addElement(newElements[i]);
         }
 
         return newClusters;
@@ -187,7 +184,10 @@ app.service('KMeansAnalysisService', function ($log) {
     this.analyze = function (data, callback) {
 
         elements = buildElementList(data.callData, data.xAttrib.value, data.yAttrib.value);
-        clusters = buildClusterList(data.kNumber, elements);
+        clusters = buildClusterList(data.kNumber);
+
+        seedClusters();
+        // TODO: Add scaling.
 
         // Sentinel flag
         var finished = false;
