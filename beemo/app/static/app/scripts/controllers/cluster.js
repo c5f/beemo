@@ -273,7 +273,7 @@ app.service('KMeansAnalysisService', function ($log) {
             });
         }
 
-        callback(clusters);
+        callback(clusters, elements);
     }
 });
 
@@ -328,7 +328,7 @@ app.controller('ClusterController', function ($scope, $log, DataService, KMeansA
 
     // Analyze action
     $scope.analyzeClicked = function () {
-        KMeansAnalysisService.analyze($scope.graphData, function (graphClusters) {
+        KMeansAnalysisService.analyze($scope.graphData, function (graphClusters, graphElements) {
 
             // Empty existing graphData
             $scope.graphData.graphData = [];
