@@ -92,6 +92,16 @@ app.service('KMeansAnalysisService', function ($log) {
             // Update centroid coordinates.
             this.centroid.x = xTotal / this.elements.length;
             this.centroid.y = yTotal / this.elements.length;
+            var currentCluster = this;
+
+            // Update the size of each element.
+            this.elements.forEach(function (element) {
+                if (element.cluster.getDistance(element) != 0) {
+                    element.location.size = currentCluster.getFarthestElementDistance() / element.cluster.getDistance(element);
+                } else {
+                    element.location.size = 5;
+                }
+            });
         }
 
         // Function for adding an Element to this Cluster
