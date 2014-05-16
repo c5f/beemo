@@ -6,7 +6,7 @@ var app = angular.module('beemoApp', [
 ]);
 
 // Route provider config
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+app.config(['$routeProvider', function($routeProvider) {
 
   // Route provider URL path directives
   $routeProvider.
