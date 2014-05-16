@@ -38,10 +38,10 @@ app.service('KMeansAnalysisService', function ($log) {
     // Clusters list
     var clusters = [];
 
-    // Range for X
+    // Scale for X
     var xScale = 1;
 
-    // Range for Y
+    // Scale for Y
     var yScale = 1;
 
     /**
@@ -136,8 +136,8 @@ app.service('KMeansAnalysisService', function ($log) {
         // Function for calculating distance to this cluster
         this.getDistance = function (element) {
             return Math.sqrt(
-                Math.pow(Math.abs(element.location.x * xScale - this.centroid.x), 2) +
-                Math.pow(Math.abs(element.location.y * yScale - this.centroid.y), 2)
+                Math.pow(Math.abs(element.location.x - this.centroid.x) * xScale, 2) +
+                Math.pow(Math.abs(element.location.y - this.centroid.y) * yScale, 2)
                 );
         }
     }
