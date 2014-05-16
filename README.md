@@ -1,6 +1,6 @@
 # Behavior Modeler for LIvES 
 
-**Be[e]havior Modeler** (Beemo) is an AngularJS project designed to apply a [_k_-means clustering](http://en.wikipedia.org/wiki/K-means_clustering) analysis to extract and examine trends in participant and coach behavior within the [LIvES Project](http://ovarianlives.org).  Beemo utilizes a [Django REST Framework](http://django-rest-framework.org)/[Restangular](https://github.com/mgonto/restangular) backend and [d3.js](http://d3js.org) to visualize the data.
+**Be[e]havior Modeler** (Beemo) is an AngularJS project designed to apply a [_k_-means clustering](http://en.wikipedia.org/wiki/K-means_clustering) analysis to visualize trends in participant and coach behavior within the [LIvES Project](http://ovarianlives.org).  Beemo utilizes a [Django REST Framework](http://django-rest-framework.org) backend and [d3.js](http://d3js.org) to visualize the data via [cmaurer's nvd3 angular directives](https://github.com/cmaurer/angularjs-nvd3-directives).
 
 ## Dependencies
 
@@ -28,21 +28,3 @@ Beemo relies heavily on several frameworks and package managers, but the system 
 ## Setup
 
 Coming soon...
-
-## Running the Webserver
-
-Because Beemo was built with [yeoman](http://yeoman.io/), staticfiles need to be compiled and moved where Django will recognize them before the webserver can be run.
-
-```shell
-# Run collectstatic to pull all staticfiles from the app directories into Django's staticfile location.
-~/beemo $ python manage.py collectstatic
-
-...
-
-# Run the webserver
-# Development
-~/beemo $ python manage.py runserver
-
-# Production
-$ sudo service nginx restart
-```
