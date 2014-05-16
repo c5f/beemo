@@ -77,18 +77,17 @@ app.service('KMeansAnalysisService', function ($log) {
         // Function for calculating and updating the Centroid of this Cluster - called by add/remove
         this.updateCentroid = function () {
 
-            var xTotal = 0;
-            var yTotal = 0;
-            var element;
+            var xTotal, yTotal;
 
-            // TODO: add support for date clustering
-            for (var index in this.elements) {
+            // Sum x and y values
+            xTotal = this.elements.reduce(function (prev, curr) {
+                return prev + curr.location.x;
+            }, 0);
 
-                element = this.elements[index];
+            yTotal = this.elements.reduce(function (prev, curr) {
+                return prev + curr.location.y;
+            }, 0);
 
-                xTotal += Number(element.location.x);
-                yTotal += Number(element.location.y);
-            }
 
             // Update centroid coordinates.
             this.centroid.x = xTotal / this.elements.length;
