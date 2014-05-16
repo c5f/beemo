@@ -1,38 +1,20 @@
 'use strict';
 
 var app = angular.module('beemoApp', [
-    'ngRoute', 
-    'restangular',
-    'nvd3ChartDirectives'
-]).
+  'ngRoute',
+  'nvd3ChartDirectives'
+]);
 
-    // Route provider config
-    config(['$routeProvider', function($routeProvider) {
-        $routeProvider.
-  
-        // Route provider URL path directives
-        when('/', {redirectTo: '/dashboard'}).
-        when('/dashboard', {controller:'DashboardCtrl', templateUrl: 'static/views/dashboard.html'}).
-  
-        // Static redirect for bower components
-        otherwise({redirectTo: '/static/'});
-  
-    }]).
+// Route provider config
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
-  // Restangular config for pagination
-  config(function(RestangularProvider) {
+  // Route provider URL path directives
+  $routeProvider.
+    when('/', {redirectTo: '/cluster'}).
+    when('/dashboard', {controller:'DashboardCtrl', templateUrl: 'static/views/dashboard.html'}).
+    when('/cluster', {controller:'ClusterController', templateUrl: 'static/views/cluster.html'}).
 
-      RestangularProvider.setResponseExtractor(function(response, operation, what, url) {
-          if (operation === "getList") {
-                var newResponse = response.results;
-                newResponse._resultmeta = {
-                    "count": response.count,
-                    "next": response.next,
-                    "previous": response.previous
-                };
-                return newResponse;
-          }
-          return response;
-      });
+    // Static redirect for bower components
+    otherwise({redirectTo: '/static/'});
 
-  });
+}]);

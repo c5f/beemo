@@ -13,9 +13,6 @@ import django_filters
 class CallList(generics.ListAPIView):
     serializer_class = CallSerializer
 
-    paginate_by = 100
-    paginate_by_param = 'page_size'
-    max_paginate_by = 500
     filter_backends = (filters.OrderingFilter,)
     ordering = ['-completed_date']
 
