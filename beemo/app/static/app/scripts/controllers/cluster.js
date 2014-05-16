@@ -77,22 +77,31 @@ app.service('KMeansAnalysisService', function ($log) {
         // Function for calculating and updating the Centroid of this Cluster - called by add/remove
         this.updateCentroid = function () {
 
-            var xTotal = 0;
-            var yTotal = 0;
-            var element;
+            var xTotal, yTotal;
 
-            // TODO: add support for date clustering
-            for (var index in this.elements) {
+            // Sum x and y values
+            xTotal = this.elements.reduce(function (prev, curr) {
+                return prev + curr.location.x;
+            }, 0);
 
-                element = this.elements[index];
+            yTotal = this.elements.reduce(function (prev, curr) {
+                return prev + curr.location.y;
+            }, 0);
 
-                xTotal += Number(element.location.x);
-                yTotal += Number(element.location.y);
-            }
 
             // Update centroid coordinates.
             this.centroid.x = xTotal / this.elements.length;
             this.centroid.y = yTotal / this.elements.length;
+            var currentCluster = this;
+
+            // Update the size of each element.
+            this.elements.forEach(function (element) {
+                if (element.cluster.getDistance(element) != 0) {
+                    element.location.size = currentCluster.getFarthestElementDistance() / element.cluster.getDistance(element);
+                } else {
+                    element.location.size = 5;
+                }
+            });
         }
 
         // Function for adding an Element to this Cluster
@@ -139,6 +148,16 @@ app.service('KMeansAnalysisService', function ($log) {
                 Math.pow(Math.abs(element.location.x - this.centroid.x) * xScale, 2) +
                 Math.pow(Math.abs(element.location.y - this.centroid.y) * yScale, 2)
                 );
+        }
+
+        // Finds the longest distance of any element from this Cluster's centroid (for size rendering)
+        this.getFarthestElementDistance = function () {
+
+            // elements.map returns a value list of distances to the cluster centroid
+            // Math.max.apply finds the largest value in that list
+            return Math.max.apply(Math, this.elements.map(function (element) {
+                return element.cluster.getDistance(element);
+            }));
         }
     }
 
@@ -274,7 +293,7 @@ app.service('KMeansAnalysisService', function ($log) {
             });
         }
 
-        callback(clusters);
+        callback(clusters, elements);
     }
 });
 
@@ -329,7 +348,7 @@ app.controller('ClusterController', function ($scope, $log, DataService, KMeansA
 
     // Analyze action
     $scope.analyzeClicked = function () {
-        KMeansAnalysisService.analyze($scope.graphData, function (graphClusters) {
+        KMeansAnalysisService.analyze($scope.graphData, function (graphClusters, graphElements) {
 
             // Empty existing graphData
             $scope.graphData.graphData = [];
@@ -347,14 +366,18 @@ app.controller('ClusterController', function ($scope, $log, DataService, KMeansA
                 });
             });
 
+            var maxSize = Math.max.apply(Math, graphElements.map(function (element) {
+                return element.location.size;
+            }));
+
             // Add cluster centroids to their own group
-            // $scope.graphData.graphData.push({
-            //     key: "Centroids",
-            //     values: graphClusters.map(function (cluster) {
-            //         return { x:cluster.centroid.x, y:cluster.centroid.y, size: cluster.elements.length * 5};
-            //     }),
-            //     clusters: graphClusters
-            // });
+            $scope.graphData.graphData.push({
+                key: "Centroids",
+                values: graphClusters.map(function (cluster) {
+                    return { x:cluster.centroid.x, y:cluster.centroid.y, size: cluster.elements.length / maxSize};
+                }),
+                clusters: graphClusters
+            });
         });
     };
 
