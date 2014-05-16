@@ -9,7 +9,7 @@ app.service('DataService', function ($http, $log) {
         if (filters === undefined || filters.length == 0) {
             // If no filters were provided, take the first 200 calls
             calls = calls.slice(0, 200);
-            $log.debug('Taking first 200 calls.');
+            $log.debug('Taking first 200 calls. No filters yet.');
         } else {
             // TODO: Implement filters
             $log.error('Somehow got into the unimplemented filterCalls else block...\nfilters:' + filters);
@@ -38,10 +38,10 @@ app.service('KMeansAnalysisService', function ($log) {
     // Clusters list
     var clusters = [];
 
-    // Range for X
+    // Scale for X
     var xScale = 1;
 
-    // Range for Y
+    // Scale for Y
     var yScale = 1;
 
     /**
@@ -136,8 +136,8 @@ app.service('KMeansAnalysisService', function ($log) {
         // Function for calculating distance to this cluster
         this.getDistance = function (element) {
             return Math.sqrt(
-                Math.pow(Math.abs(element.location.x * xScale - this.centroid.x), 2) +
-                Math.pow(Math.abs(element.location.y * yScale - this.centroid.y), 2)
+                Math.pow(Math.abs(element.location.x - this.centroid.x) * xScale, 2) +
+                Math.pow(Math.abs(element.location.y - this.centroid.y) * yScale, 2)
                 );
         }
     }
@@ -208,14 +208,47 @@ app.service('KMeansAnalysisService', function ($log) {
         }
     };
 
+    // Finds scales based on ranges.
+    var updateScales = function () {
+        var xMin, xMax, yMin, yMax, xVals, yVals, xRng, yRng;
+
+        // Reset scales
+        xScale = 1;
+        yScale = 1;
+
+        // Generate value lists
+        var xVals = elements.map(function (element) {
+            return element.location.x;
+        });
+
+        var yVals = elements.map(function (element) {
+            return element.location.y;
+        })
+
+        // Find min/max/range
+        xMin = Math.min.apply(Math, xVals);
+        xMax = Math.max.apply(Math, xVals);
+        yMin = Math.min.apply(Math, yVals);
+        yMax = Math.max.apply(Math, yVals);
+        xRng = xMax - xMin;
+        yRng = yMax - yMin;
+
+        // Always scale up
+        if (xRng > yRng) {
+            yScale = xRng / yRng;
+        } else {
+            xScale = yRng / xRng;
+        }
+    }
+
     // Analysis function
     this.analyze = function (data, callback) {
 
         elements = buildElementList(data.callData, data.xAttrib.value, data.yAttrib.value);
         clusters = buildClusterList(data.kNumber);
 
+        updateScales();
         seedClusters();
-        // TODO: Add scaling.
 
         // Sentinel flag
         var finished = false;
@@ -240,8 +273,6 @@ app.service('KMeansAnalysisService', function ($log) {
                 }
             });
         }
-
-        $log.debug(clusters);
 
         callback(clusters);
     }
