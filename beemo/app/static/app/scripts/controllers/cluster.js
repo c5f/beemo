@@ -139,6 +139,16 @@ app.service('KMeansAnalysisService', function ($log) {
                 Math.pow(Math.abs(element.location.y - this.centroid.y) * yScale, 2)
                 );
         }
+
+        // Finds the longest distance of any element from this Cluster's centroid (for size rendering)
+        this.getFarthestElementDistance = function () {
+
+            // elements.map returns a value list of distances to the cluster centroid
+            // Math.max.apply finds the largest value in that list
+            return Math.max.apply(Math, this.elements.map(function (element) {
+                return element.cluster.getDistance(element);
+            }));
+        }
     }
 
     // Builds the list of Elements from base objects and the two attributes to be compared
