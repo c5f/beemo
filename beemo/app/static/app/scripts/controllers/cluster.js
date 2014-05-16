@@ -346,6 +346,10 @@ app.controller('ClusterController', function ($scope, $log, DataService, KMeansA
                 });
             });
 
+            var maxSize = Math.max.apply(Math, graphElements.map(function (element) {
+                return element.location.size;
+            }));
+
             // Add cluster centroids to their own group
             $scope.graphData.graphData.push({
                 key: "Centroids",
