@@ -347,13 +347,13 @@ app.controller('ClusterController', function ($scope, $log, DataService, KMeansA
             });
 
             // Add cluster centroids to their own group
-            // $scope.graphData.graphData.push({
-            //     key: "Centroids",
-            //     values: graphClusters.map(function (cluster) {
-            //         return { x:cluster.centroid.x, y:cluster.centroid.y, size: cluster.elements.length * 5};
-            //     }),
-            //     clusters: graphClusters
-            // });
+            $scope.graphData.graphData.push({
+                key: "Centroids",
+                values: graphClusters.map(function (cluster) {
+                    return { x:cluster.centroid.x, y:cluster.centroid.y, size: cluster.elements.length / maxSize};
+                }),
+                clusters: graphClusters
+            });
         });
     };
 
