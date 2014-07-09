@@ -14,7 +14,7 @@ GMAIL_INFO = {
 
 # Django settings for beemo project.
 
-DEBUG = True
+DEBUG = os.environ.get('BEEMO_DEBUG', 'BEEMO_DEBUG') == 'True'
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
