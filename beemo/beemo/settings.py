@@ -1,17 +1,15 @@
 import os
 
-
-
 # Twilio API information
 TWILIO_INFO = {
-    'sid': os.environ.get('TWILIO_ACCOUNT_SID', 'TWILIO_ACCOUNT_SID'),
-    'token': os.environ.get('TWILIO_AUTH_TOKEN', 'TWILIO_AUTH_TOKEN')
+    'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID', 'BEEMO_TWILIO_ACCOUNT_SID'),
+    'token': os.environ.get('BEEMO_TWILIO_AUTH_TOKEN', 'BEEMO_TWILIO_AUTH_TOKEN')
 }
 
 # Gmail IMAP information
 GMAIL_INFO = {
-    'user': os.environ.get('GMAIL_USERNAME', 'GMAIL_USERNAME'),
-    'pass': os.environ.get('GMAIL_PASSWORD', 'GMAIL_PASSWORD')
+    'user': os.environ.get('BEEMO_GMAIL_USERNAME', 'BEEMO_GMAIL_USERNAME'),
+    'pass': os.environ.get('BEEMO_GMAIL_PASSWORD', 'BEEMO_GMAIL_PASSWORD')
 }
 
 # Django settings for beemo project.
@@ -27,13 +25,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db.sqlite',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'ENGINE': os.environ.get('BEEMO_DB_ENGINE', 'BEEMO_DB_ENGINE'),
+        'NAME': os.environ.get('BEEMO_DB_NAME', 'BEEMO_DB_NAME'),
+        'USER': os.environ.get('BEEMO_DB_USER', 'BEEMO_DB_USER'),
+        'PASSWORD': os.environ.get('BEEMO_DB_PASSWORD', 'BEEMO_DB_PASSWORD'),
+        'HOST': os.environ.get('BEEMO_DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('BEEMO_DB_PORT', ''),
     }
 }
 
