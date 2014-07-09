@@ -1,0 +1,717 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"das",
+				"dashboardCalls"
+			],
+			[
+				"da",
+				"dashboardCalls"
+			],
+			[
+				"query",
+				"queryset"
+			],
+			[
+				"lo",
+				"loadRecentCalls"
+			],
+			[
+				"departm",
+				"department_number"
+			],
+			[
+				"twosSe",
+				"twosSevensSix"
+			],
+			[
+				"basicStraight",
+				"basicStraightFlush"
+			],
+			[
+				"calc",
+				"calculate_fruit_servings_score"
+			],
+			[
+				"update_",
+				"update_adherence_score"
+			],
+			[
+				"Par",
+				"ParticipantTestCase"
+			],
+			[
+				"Partii",
+				"ParticipantProblem"
+			],
+			[
+				"content_field",
+				"content_field_contact_phone"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 137.0,
+		"selected_items":
+		[
+			[
+				"markdown",
+				"Preferences: MarkdownEditing Settings – Default"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"remove pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"remoe",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove",
+				"Emmet: Remove Tag"
+			],
+			[
+				"pyt",
+				"Set Syntax: Python"
+			],
+			[
+				"gist",
+				"Gist: Create Private Gist"
+			],
+			[
+				"obj",
+				"Set Syntax: Objective-C"
+			],
+			[
+				"ssh conf",
+				"Set Syntax: SSH Config"
+			],
+			[
+				"js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"angularjs",
+				"Set Syntax: HTML (Angular.js)"
+			],
+			[
+				"syntax jquery",
+				"Set Syntax: jQuery (JavaScript)"
+			],
+			[
+				"intall",
+				"Package Control: Install Package"
+			],
+			[
+				"javasc",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"java",
+				"Set Syntax: Java"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"sql",
+				"Set Syntax: SQL"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Preferences: Browse Packages"
+			],
+			[
+				"packs",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 516.0
+	},
+	"console":
+	{
+		"height": 120.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/cix/.teamocil/beemo.yml",
+		"/Users/cix/.teamocil/swspirits-digital-ocean.yml",
+		"/Users/cix/.teamocil/swspirits.yml",
+		"/Users/cix/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/dascottflemingc/.bash_profile",
+		"/Users/cix/.bash_profile",
+		"/Users/dascottflemingc/.teamocil/work.yml",
+		"/Users/dascottflemingc/.teamocil/vagrant.yml",
+		"/Users/dascottflemingc/.teamocil/swspirits.yml",
+		"/Users/dascottflemingc/.teamocil/swspirits-digital-ocean.yml",
+		"/Users/dascottflemingc/.teamocil/irssi.yml",
+		"/Users/dascottflemingc/Documents/kickball.js",
+		"/Users/dascottflemingc/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/dascottflemingc/Documents/kickball.json",
+		"/Users/dascottflemingc/Documents/1$",
+		"/Users/dascottflemingc/Library/Application Support/Sublime Text 3/Packages/User/Markdown.sublime-settings",
+		"/Users/dascottflemingc/Library/Application Support/Sublime Text 3/Packages/MarkdownEditing/Markdown.sublime-settings",
+		"/Users/dascottflemingc/Documents/kickball.md",
+		"/etc/hosts",
+		"/Users/dascottflemingc/.ssh/config",
+		"/Users/dascottflemingc/Desktop/k-means.txt",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/models/asset_update.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/models/asset.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/api/views.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-uglify/test/fixtures/expected/exportAll.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-cssmin/node_modules/clean-css/lib/text/expressions.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/lib/executor.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/.idea/encodings.xml",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/lib/vendor/web-socket-js/flash-src/com/hurlant/crypto/tls/KeyExchanges.as",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/lib/middleware/source-files.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/lib/server.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/karma.conf.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt/node_modules/iconv-lite/test/gbkFile.txt",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/node_modules/log4js/test/streams/test-rolling-file-stream",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/lib/vendor/web-socket-js/flash-src/WebSocketEvent.as",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/admin.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/templates/custodian_admin.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/models/custodian.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/models/__init__.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/api/models.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/templates/modify_asset.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/styles/main.css",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/app/scripts/app.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/scripts/app.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/__init__.py",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/.bowerrc",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/node_modules/grunt-karma/TODO.md",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/node_modules/yeoman/test/test-insight.py",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/app/scripts/app.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/app/styles/dashboard.css",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/scripts/controllers/dashboard.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/app/views/dashboard.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/app/views/dashboard.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/bower_components/es5-shim/tests/helpers/h.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/node_modules/karma/node_modules/log4js/test/hookioAppender-test.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/app/scripts/controllers/dashboard.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/app/scripts/controllers/dashboard.js",
+		"/Users/dascottflemingc/Code/ng-nvd3/bower.json",
+		"/Users/dascottflemingc/Code/ng-nvd3/examples/multiBarHorizontalChart.html",
+		"/Users/dascottflemingc/Code/ng-nvd3/examples/multiBarChart.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/test/spec/controllers/main.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/app/scripts/controllers/main.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/scripts/controllers/main.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/app/styles/main.css",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/models.py",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/styles/dashboard.css",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/app/styles/dashboard.css",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/admin/css/dashboard.css",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/views/dashboard.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/node_modules/grunt-ngmin/node_modules/ngmin/node_modules/astral-angular-annotate/lib/deep-apply.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/db.sqlite",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/.travis.yml",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/node_modules/grunt-usemin/index.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/app/static/app/index.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/app/index.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/index.html",
+		"/Users/dascottflemingc/Code/beemo/beemo/static/node_modules/grunt-contrib-imagemin/node_modules/gifsicle/node_modules/bin-wrapper/node_modules/mout/lang/isNull.js",
+		"/Users/dascottflemingc/Code/beemo/beemo/issues.csv",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/pydocs/project.barcode.rst",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt/node_modules/glob/test/bash-results.json",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/bower_components/bootstrap-sass/js/bootstrap-affix.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/bower.json",
+		"/Users/dascottflemingc/Documents/kickball.txt",
+		"/Users/dascottflemingc/Documents/kickball2.txt",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/titan-svrmaint/README.md",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/titan-svrmaint/REAMDE.md",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/titan-svrmaint/svr_maint/settings.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/titan-svrmaint/requirements.txt",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/settings.py",
+		"/Users/dascottflemingc/Documents/keg_alliance.txt",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/ios-mat/.gitignore",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/ios-mat/Barcode/Build/Intermediates/Pods.build/Debug-iphoneos/Pods-ISO8601DateFormatterValueTransformer.build/Objects-normal/armv7/ISO8601DateFormatterValueTransformer.d",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/views/datatable/datatable.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/api/urls.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/scripts/directives/datatable.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/models/comment.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/scripts/app.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/scripts/controllers/contract-controller.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/jsdocs/app.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/argument_parser.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/api/serializers.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/node_modules/http-proxy/examples/middleware/modifyResponse-middleware.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-uglify/node_modules/uglify-js/package.json",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/templates/index.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/jsdocs/contract-controller.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/urls.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/jsdocs/datatable.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/pydocs/modules.rst",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-connect/node_modules/connect/lib/middleware/methodOverride.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/pydocs/Makefile",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/views.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/files/nginx.conf",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-clean/docs/clean-options.md",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/pydocs/conf.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/barcode/__init__.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-cssmin/node_modules/clean-css/lib/images/url-rebase.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/project/api/tests.py",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/styles/bootstrap.css",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-google-cdn/node_modules/bower/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings_standalone.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-google-cdn/node_modules/bower/node_modules/unzip/node_modules/pullstream/node_modules/slice-stream/.idea/scopes/scope_settings.xml",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/app/bower_components/ng-grid/scripts/server.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-watch/node_modules/tiny-lr/node_modules/faye-websocket/examples/sse.html",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/docs/jsdocs/docco.css",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/test/WebSocketServer.test.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-google-cdn/node_modules/bower/node_modules/unzip/node_modules/pullstream/node_modules/slice-stream/.idea/slice-stream.iml",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/lib/WebSocketServer.js",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-google-cdn/node_modules/bower/node_modules/unzip/node_modules/match-stream/.idea/scopes/scope_settings.xml",
+		"/Users/dascottflemingc/Documents/fso/vagrant-titan/projects/barcode-titan/static/node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/build/suffix-source-map.jsm"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"\\ ([a-z]{7,8})\\n",
+			"\\ ([a-z]{5,6})\\n",
+			"\\ ([a-z]{4})\\n",
+			"\\ ([a-z]{3})\\n",
+			">,",
+			", ",
+			"dat",
+			"nomad",
+			"\\*\\*",
+			" ",
+			"restangular",
+			"csrf",
+			"restangular",
+			"user",
+			"form",
+			"ng-click",
+			"filters",
+			"form",
+			"/mat/",
+			"scans",
+			"SCANS",
+			"extra",
+			"static",
+			"a =",
+			"assert",
+			"PokerHandRank",
+			"YES",
+			"no",
+			"\\d\\d\\n",
+			"rep",
+			"-",
+			"livescoa",
+			","
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"\\ \\ \\1\\n",
+			"\\ \\ \\ \\1\\n",
+			"\\ \\ \\ \\ \\1\\n",
+			"\\ {4}\\1\\n",
+			">, \\n",
+			", \\n",
+			"\\n",
+			"",
+			"\\n",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "/Users/cix/Code/beemo"
+		}
+	],
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 20.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 120.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"admin.py",
+				"project/barcode/admin.py"
+			],
+			[
+				"assetupd",
+				"project/barcode/models/asset_update.py"
+			],
+			[
+				"asset",
+				"project/barcode/models/asset.py"
+			],
+			[
+				"custod",
+				"project/barcode/models/custodian.py"
+			],
+			[
+				"app.js",
+				"app/static/app/scripts/app.js"
+			],
+			[
+				"das",
+				"app/static/app/views/dashboard.html"
+			],
+			[
+				"dashboard.js",
+				"app/static/app/scripts/controllers/dashboard.js"
+			],
+			[
+				"bullet",
+				"examples/bulletChart.html"
+			],
+			[
+				"main.js",
+				"app/static/app/scripts/controllers/main.js"
+			],
+			[
+				"dashboard",
+				"app/static/app/views/dashboard.html"
+			],
+			[
+				"index.html",
+				"app/static/app/index.html"
+			],
+			[
+				"barcode/views.py",
+				"project/barcode/views.py"
+			],
+			[
+				"comment.py",
+				"project/barcode/models/comment.py"
+			],
+			[
+				"asset.py",
+				"project/barcode/models/asset.py"
+			],
+			[
+				"settings",
+				"project/settings.py"
+			],
+			[
+				"contract",
+				"static/app/scripts/controllers/contract-controller.js"
+			],
+			[
+				"views",
+				"project/api/views.py"
+			],
+			[
+				"serializers",
+				"project/api/serializers.py"
+			],
+			[
+				"custo",
+				"project/barcode/models/custodian.py"
+			],
+			[
+				"urls",
+				"project/api/urls.py"
+			],
+			[
+				"data",
+				"static/app/views/datatable/datatable.html"
+			],
+			[
+				"datatable",
+				"static/app/views/datatable/datatable.html"
+			],
+			[
+				"contract-controller",
+				"static/app/scripts/controllers/contract-controller.js"
+			],
+			[
+				"datatablejs",
+				"static/app/scripts/directives/datatable.js"
+			],
+			[
+				"main.css",
+				"static/app/styles/main.css"
+			],
+			[
+				"modifyhtml",
+				"templates/modify_asset.html"
+			],
+			[
+				"comment",
+				"project/barcode/models/comment.py"
+			],
+			[
+				"barcode/views",
+				"project/barcode/views.py"
+			],
+			[
+				"urls.py",
+				"project/urls.py"
+			],
+			[
+				".css",
+				"static/app/styles/main.css"
+			],
+			[
+				"datatable.js",
+				"static/app/scripts/directives/datatable.js"
+			],
+			[
+				"datatable.html",
+				"docs/jsdocs/datatable.html"
+			],
+			[
+				"seri",
+				"project/api/serializers.py"
+			],
+			[
+				"admin",
+				"project/barcode/admin.py"
+			],
+			[
+				".html",
+				"static/app/views/datatable/datatable.html"
+			],
+			[
+				"model",
+				"app/models.py"
+			],
+			[
+				"vies",
+				"api/views.py"
+			],
+			[
+				"css",
+				"app/static/css/beemo.css"
+			],
+			[
+				"index",
+				"templates/index.html"
+			],
+			[
+				"",
+				"api/serializers.py"
+			],
+			[
+				"api/views",
+				"api/views.py"
+			],
+			[
+				"something",
+				"something.rb"
+			],
+			[
+				"long",
+				"long.txt"
+			],
+			[
+				"level",
+				"level0"
+			],
+			[
+				"assetup",
+				"project/barcode/models/asset_update.py"
+			],
+			[
+				"assetupdate",
+				"project/barcode/models/asset_update.py"
+			],
+			[
+				"scan",
+				"project/barcode/models/scan.py"
+			],
+			[
+				"short",
+				"short.txt"
+			],
+			[
+				"sync_",
+				"project/barcode/management/commands/sync_assets.py"
+			],
+			[
+				"update.",
+				"project/barcode/models/asset_update.py"
+			],
+			[
+				"campus.p",
+				"contrib/locus/models/campus.py"
+			],
+			[
+				"api/v",
+				"project/api/views.py"
+			],
+			[
+				"serializers.py",
+				"project/api/serializers.py"
+			],
+			[
+				"models",
+				"project/barcode/models/__init__.py"
+			],
+			[
+				"docuwareinit",
+				"contrib/docuwaredb/__init__.py"
+			],
+			[
+				"epminit",
+				"contrib/epm/__init__.py"
+			],
+			[
+				"modelsinit",
+				"project/barcode/models/__init__.py"
+			],
+			[
+				"apiviews",
+				"project/api/views.py"
+			],
+			[
+				"update_",
+				"beemo/app/management/commands/update_adherence.py"
+			],
+			[
+				"parti",
+				"beemo/app/tests/participant_tests.py"
+			],
+			[
+				"syncmodels",
+				"beemo/sync/models.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 145.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
