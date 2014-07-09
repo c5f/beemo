@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from app.models import Email, Phone, Participant, Call, ParticipantProblem
 
-locale.setlocale(locale.LC_ALL, 'en_US')
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 # SQLAlchemy declarative base boilerplate
 engine = create_engine('mysql://liveslocal:liveslocal123@localhost/liveslocal')
