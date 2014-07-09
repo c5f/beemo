@@ -1,0 +1,21 @@
+{
+	"folders":
+	[
+		{
+            "path": ".",
+			"follow_symlinks": true,
+
+            "file_exclude_patterns": [],
+            "folder_exclude_patterns": [
+                "beemo/app/static/node_modules",
+                "beemo/app/static/bower_components",
+            ]
+		}
+	],
+    "settings": [
+
+    ],
+    "build_systems": [
+
+    ]
+}
