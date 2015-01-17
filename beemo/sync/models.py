@@ -26,7 +26,7 @@ class RNode(Base):
     status = Column('status', Integer)
 
 
-class RParticipant(Base):
+class RInterventionParticipant(Base):
 
     __tablename__ = 'content_type_participant'
     __table_args__ = ({'autoload': False})
@@ -95,7 +95,8 @@ class RequiredValueError(Exception):
 
 def update_participants(session, issue_list):
 
-    for r_participant in session.query(RParticipant).filter_by(ptype=1):
+    for r_participant in session.query(
+            RInterventionParticipant).filter_by(ptype=1):
 
         mobile = None
 
@@ -152,12 +153,14 @@ def update_participants(session, issue_list):
 def update_phone_numbers(session, issue_list):
 
     # Get a list of the intervention group's node ids
-    nids = [int(i) for (i,) in session.query(RParticipant.nid).filter_by(ptype=1)]
+    nids = [int(i) for (i,) in session.query(
+        RInterventionParticipant.nid).filter_by(ptype=1)]
 
     for r_phone in session.query(RPhone).filter(RPhone.nid.in_(nids)):
 
         # Find the Participant object for this phone number
-        pid = session.query(RParticipant).filter_by(nid=r_phone.nid).first().pid
+        pid = session.query(RInterventionParticipant).filter_by(
+            nid=r_phone.nid).first().pid
         participant = Participant.objects.get(pid=pid)
 
         # Strip non-digit characters
@@ -224,13 +227,17 @@ def massage_number(fieldname, input_string):
 def update_calls(session, issue_list):
 
     # Get a list of the intervention group's node ids
-    nids = [int(i) for (i,) in session.query(RParticipant.nid).filter_by(ptype=1)]
-    
-    # We are only concerned with completed calls that belong to our sample group
-    for r_call in session.query(RCall).filter(RCall.pnid.in_(nids)).filter(RCall.completed != None):
+    nids = [int(i) for (i,) in session.query(
+        RInterventionParticipant.nid).filter_by(ptype=1)]
+
+    # We are only concerned with completed calls that belong to our sample
+    # group
+    for r_call in session.query(RCall).filter(RCall.pnid.in_(nids)).filter(
+            RCall.completed is not None):
 
         # Find the Participant object for this call
-        pid = session.query(RParticipant).filter_by(nid=r_call.pnid).first().pid
+        pid = session.query(RInterventionParticipant).filter_by(
+            nid=r_call.pnid).first().pid
         participant = Participant.objects.get(pid=pid)
 
         # Check if this Call object is already in our database
@@ -356,12 +363,14 @@ def update_calls(session, issue_list):
 def update_problems(session, issue_list):
 
     # Get a list of the intervention group's node ids
-    nids = [int(i) for (i,) in session.query(RParticipant.nid).filter_by(ptype=1)]
+    nids = [int(i) for (i,) in session.query(
+        RInterventionParticipant.nid).filter_by(ptype=1)]
 
     for r_problem in session.query(RProblem).filter(RProblem.participant_nid.in_(nids)):
 
         # Find the Participant for this problem
-        pid = session.query(RParticipant).filter_by(nid=r_problem.participant_nid).first().pid
+        pid = session.query(RInterventionParticipant).filter_by(
+            nid=r_problem.participant_nid).first().pid
         participant = Participant.objects.get(pid=pid)
 
         r_date = datetime.datetime.strptime(r_problem.date, '%Y-%m-%dT%H:%M:%S').date()
