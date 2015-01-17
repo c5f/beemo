@@ -1,9 +1,22 @@
-import datetime, locale
-from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, DateTime
-from sqlalchemy.orm import sessionmaker, backref, relationship
+import datetime
+import locale
+
+from sqlalchemy import create_engine
+from sqlalchemy import Column
+from sqlalchemy import String
+from sqlalchemy import Integer
+from sqlalchemy import ForeignKey
+from sqlalchemy import DateTime
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import backref
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-from app.models import Email, Phone, Participant, Call, ParticipantProblem
+from app.models import Email
+from app.models import Phone
+from app.models import Participant
+from app.models import Call
+from app.models import ParticipantProblem
 
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
@@ -82,16 +95,17 @@ class RProblem(Base):
 
 # Model utility functions
 class RequiredValueError(Exception):
-    """Exception raised for required fields with no value.
+    """ Exception raised for required fields with no value.
 
-    Attributes:
-        field -- input field in which the error occurred
-        msg -- explanation of the error
+        Attributes:
+            field -- input field in which the error occurred
+            msg -- explanation of the error
     """
 
     def __init__(self, field):
         self.field = field
         self.msg = 'Value: blank or \'-\''
+
 
 def update_participants(session, issue_list):
 
@@ -101,7 +115,8 @@ def update_participants(session, issue_list):
         mobile = None
 
         if r_participant.mobile:
-            mobile = Phone.objects.get_or_create(number=r_participant.mobile)[0]
+            mobile = Phone.objects.get_or_create(
+                number=r_participant.mobile)[0]
 
         r_node = session.query(RNode).get(r_participant.nid)
 
@@ -110,11 +125,13 @@ def update_participants(session, issue_list):
         except Participant.DoesNotExist:
             participant = Participant(pid=r_participant.pid)
 
-        participant.creation_date = datetime.datetime.fromtimestamp(r_node.created)
+        participant.creation_date = datetime.datetime.fromtimestamp(
+            r_node.created)
         participant.sms_number = mobile
 
         try:
-            participant.base_fat_goal = massage_number('base_fat_goal', r_participant.fat_grams)
+            participant.base_fat_goal = massage_number(
+                'base_fat_goal', r_participant.fat_grams)
         except (AttributeError, RequiredValueError):
             participant.base_fat_goal = None
         except ValueError:
@@ -128,7 +145,8 @@ def update_participants(session, issue_list):
             participant.base_fat_goal = None
 
         try:
-            participant.base_step_goal = massage_number('base_step_goal', r_participant.steps)
+            participant.base_step_goal = massage_number(
+                'base_step_goal', r_participant.steps)
         except (AttributeError, RequiredValueError):
             participant.base_step_goal = None
         except ValueError:
@@ -147,7 +165,8 @@ def update_participants(session, issue_list):
         participant.save()
 
         if r_participant.email:
-            email = Email.objects.get_or_create(email=r_participant.email.strip(), participant=participant)[0]
+            email = Email.objects.get_or_create(
+                email=r_participant.email.strip(), participant=participant)[0]
 
 
 def update_phone_numbers(session, issue_list):
@@ -177,19 +196,20 @@ def update_phone_numbers(session, issue_list):
 
 
 def update_emails(issue_list):
-    
+
     with open('emails.txt', 'r') as email_list:
-    
+
         for line in email_list:
-    
+
             parts = str.split(line, ':')
 
             if len(parts) == 2:
-      
+
                 try:
                     participant = Participant.objects.get(pid=parts[0])
 
-                    Email.objects.get_or_create(email=parts[1].strip(), participant=participant)
+                    Email.objects.get_or_create(
+                        email=parts[1].strip(), participant=participant)
                 except Participant.DoesNotExist:
 
                     issue_list.append({
@@ -202,13 +222,14 @@ def update_emails(issue_list):
 
 def massage_number(fieldname, input_string):
 
-    if input_string == None or input_string == '-':
+    if input_string is None or input_string == '-':
         raise RequiredValueError(fieldname)
 
     if '-' in input_string:
         strings = str.split(input_string, '-')
 
-        assert len(strings) == 2, 'input string %s is improperly formatted.' % input_string
+        assert len(strings) == 2, 'input string %s \
+            is improperly formatted.' % input_string
 
         # Average the values if a range was provided
         return int(round((float(strings[0]) + float(strings[1])) / 2.0))
@@ -242,18 +263,21 @@ def update_calls(session, issue_list):
 
         # Check if this Call object is already in our database
         try:
-            call = Call.objects.get(participant=participant, number=r_call.number)
+            call = Call.objects.get(
+                participant=participant, number=r_call.number)
         except Call.DoesNotExist:
             call = Call(participant=participant, number=r_call.number)
 
         # Update fields
-        call.completed_date = datetime.datetime.strptime(r_call.completed, '%Y-%m-%dT%H:%M:%S').date()
-        
+        call.completed_date = datetime.datetime.strptime(
+            r_call.completed, '%Y-%m-%dT%H:%M:%S').date()
+
         if r_call.goal_met:
             call.goal_met = True
 
         try:
-            call.veg_servings = massage_number('veg_servings', r_call.veg_servings)
+            call.veg_servings = massage_number(
+                'veg_servings', r_call.veg_servings)
         except ValueError as ve:
             issue_list.append({
                 'participant': participant.pid,
@@ -274,7 +298,8 @@ def update_calls(session, issue_list):
             call.veg_servings = 0
 
         try:
-            call.fruit_servings = massage_number('fruit_servings', r_call.fruit_servings)
+            call.fruit_servings = massage_number(
+                'fruit_servings', r_call.fruit_servings)
         except ValueError as ve:
             issue_list.append({
                 'participant': participant.pid,
@@ -295,7 +320,8 @@ def update_calls(session, issue_list):
             call.fruit_servings = 0
 
         try:
-            call.fiber_grams = massage_number('fiber_grams', r_call.fiber_grams)
+            call.fiber_grams = massage_number(
+                'fiber_grams', r_call.fiber_grams)
         except ValueError as ve:
             issue_list.append({
                 'participant': participant.pid,
@@ -366,18 +392,21 @@ def update_problems(session, issue_list):
     nids = [int(i) for (i,) in session.query(
         RInterventionParticipant.nid).filter_by(ptype=1)]
 
-    for r_problem in session.query(RProblem).filter(RProblem.participant_nid.in_(nids)):
+    for r_problem in session.query(RProblem).filter(
+            RProblem.participant_nid.in_(nids)):
 
         # Find the Participant for this problem
         pid = session.query(RInterventionParticipant).filter_by(
             nid=r_problem.participant_nid).first().pid
         participant = Participant.objects.get(pid=pid)
 
-        r_date = datetime.datetime.strptime(r_problem.date, '%Y-%m-%dT%H:%M:%S').date()
+        r_date = datetime.datetime.strptime(
+            r_problem.date, '%Y-%m-%dT%H:%M:%S').date()
 
         # Check for an existing problem
         try:
-            problem = ParticipantProblem.objects.get(participant=participant, date=r_date)
+            problem = ParticipantProblem.objects.get(
+                participant=participant, date=r_date)
         except ParticipantProblem.DoesNotExist:
             problem = ParticipantProblem(participant=participant, date=r_date)
 

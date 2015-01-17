@@ -1,8 +1,10 @@
 # Import Models
-from app.models import Call, Participant
+from app.models import Call
+from app.models import Participant
 
 # Import Serializers
-from api.serializers import CallSerializer, ParticipantSerializer
+from api.serializers import CallSerializer
+from api.serializers import ParticipantSerializer
 
 from rest_framework import generics
 from rest_framework import filters

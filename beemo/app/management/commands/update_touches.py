@@ -3,15 +3,18 @@ from imapclient import IMAPClient
 
 from django.core.management.base import BaseCommand
 
-from beemo.settings import GMAIL_INFO, TWILIO_INFO
+from beemo.settings import GMAIL_INFO
+from beemo.settings import TWILIO_INFO
+
 from app.models import Participant
 
-twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/' % TWILIO_INFO['sid']
+twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/\
+    ' % TWILIO_INFO['sid']
 twilio_auth = (TWILIO_INFO['sid'], TWILIO_INFO['token'])
 
 
 def update_email_counts(participant, server):
-    
+
     emails_in = 0
     emails_out = 0
 
@@ -28,13 +31,13 @@ def update_email_counts(participant, server):
 
 
 def update_call_counts(participant):
-    
+
     calls_url = twilio_base_url + 'Calls.json'
     calls_in = 0
     calls_out = 0
 
     for phone in participant.phone_numbers.all():
-        
+
         phone_number = '+1' + phone.number
         response = requests.get(
             calls_url,
@@ -61,7 +64,7 @@ def update_sms_counts(participant):
 
     sms_number = '+1' + participant.sms_number.number
     messages_url = twilio_base_url + 'Messages.json'
-    
+
     response = requests.get(
         messages_url,
         auth=twilio_auth,
@@ -85,7 +88,7 @@ def update_sms_counts(participant):
 
 
 def update_technology_touches():
-    
+
     gmail = IMAPClient(
         'imap.gmail.com',
         use_uid=True,
@@ -96,7 +99,7 @@ def update_technology_touches():
     gmail.select_folder('[Gmail]/All Mail')
 
     for participant in Participant.objects.all():
-        
+
         update_email_counts(participant, gmail)
         update_call_counts(participant)
 
@@ -107,7 +110,8 @@ def update_technology_touches():
 
 
 class Command(BaseCommand):
-    help = "Updates technology touch counts using IMAPClient and Twilio's REST API."
+    help = "Updates technology touch counts using IMAPClient and Twilio's \
+        REST API."
 
     def handle(self, *args, **options):
 

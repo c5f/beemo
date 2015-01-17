@@ -29,13 +29,15 @@ class Class(ParticipantTestCase):
 class TechnologyTouchesProperties(ParticipantTestCase):
 
     def test_should_sum_inbound_values_properly(self):
-        self.assertEqual(self.participant.tt_in, 
-            self.participant.emails_in + self.participant.calls_in + self.participant.sms_in)
+        self.assertEqual(
+            self.participant.tt_in, self.participant.emails_in +
+            self.participant.calls_in + self.participant.sms_in)
 
     def test_should_sum_outbound_values_properly(self):
-        self.assertEqual(self.participant.tt_out, 
-            self.participant.emails_out + self.participant.calls_out + self.participant.sms_out)
+        self.assertEqual(
+            self.participant.tt_out, self.participant.emails_out +
+            self.participant.calls_out + self.participant.sms_out)
 
     def test_should_sum_all_values_properly(self):
         self.assertEqual(self.participant.technology_touches,
-            self.participant.tt_in + self.participant.tt_out)
+                         self.participant.tt_in + self.participant.tt_out)
