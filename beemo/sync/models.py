@@ -39,7 +39,7 @@ class RNode(Base):
     status = Column('status', Integer)
 
 
-class RInterventionInterventionParticipant(Base):
+class RParticipant(Base):
 
     __tablename__ = 'content_type_participant'
     __table_args__ = ({'autoload': False})
@@ -126,7 +126,7 @@ def update_participants(session, issue_list):
 def update_intervention_participants(session, issue_list):
 
     for r_participant in session.query(
-            RInterventionInterventionParticipant).filter_by(ptype=1):
+            RParticipant).filter_by(ptype=1):
 
         mobile = None
 
@@ -190,12 +190,12 @@ def update_phone_numbers(session, issue_list):
 
     # Get a list of the intervention group's node ids
     nids = [int(i) for (i,) in session.query(
-        RInterventionInterventionParticipant.nid).filter_by(ptype=1)]
+        RParticipant.nid).filter_by(ptype=1)]
 
     for r_phone in session.query(RPhone).filter(RPhone.nid.in_(nids)):
 
         # Find the InterventionParticipant object for this phone number
-        pid = session.query(RInterventionInterventionParticipant).filter_by(
+        pid = session.query(RParticipant).filter_by(
             nid=r_phone.nid).first().pid
         participant = InterventionParticipant.objects.get(pid=pid)
 
@@ -268,7 +268,7 @@ def update_calls(session, issue_list):
 
     # Get a list of the intervention group's node ids
     nids = [int(i) for (i,) in session.query(
-        RInterventionInterventionParticipant.nid).filter_by(ptype=1)]
+        RParticipant.nid).filter_by(ptype=1)]
 
     # We are only concerned with completed calls that belong to our sample
     # group
@@ -276,7 +276,7 @@ def update_calls(session, issue_list):
             RCall.completed is not None):
 
         # Find the InterventionParticipant object for this call
-        pid = session.query(RInterventionInterventionParticipant).filter_by(
+        pid = session.query(RParticipant).filter_by(
             nid=r_call.pnid).first().pid
         participant = InterventionParticipant.objects.get(pid=pid)
 
@@ -409,13 +409,13 @@ def update_problems(session, issue_list):
 
     # Get a list of the intervention group's node ids
     nids = [int(i) for (i,) in session.query(
-        RInterventionInterventionParticipant.nid).filter_by(ptype=1)]
+        RParticipant.nid).filter_by(ptype=1)]
 
     for r_problem in session.query(RProblem).filter(
             RProblem.participant_nid.in_(nids)):
 
         # Find the InterventionParticipant for this problem
-        pid = session.query(RInterventionInterventionParticipant).filter_by(
+        pid = session.query(RParticipant).filter_by(
             nid=r_problem.participant_nid).first().pid
         participant = InterventionParticipant.objects.get(pid=pid)
 
