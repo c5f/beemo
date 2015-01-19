@@ -23,17 +23,19 @@ class Phone(models.Model):
         verbose_name_plural = 'Phone Numbers'
 
 
-class InterventionParticipant(models.Model):
+class Participant(models.Model):
+    """ The Participant model is an abstract superclass to each of the concrete
+        ControlParticipant and InterventionParticipant models.
+
+        It contains all of the information and behavior shared by both
+        subclasses.
+    """
 
     pid = models.CharField(max_length=60, primary_key=True)
     creation_date = models.DateField()
     phone_numbers = models.ManyToManyField(Phone)
     sms_number = models.ForeignKey(
         Phone, blank=True, null=True, related_name='sms_participant')
-
-    # Experiment InterventionParticipant Fields
-    base_fat_goal = models.PositiveIntegerField(blank=True, null=True)
-    base_step_goal = models.PositiveIntegerField(blank=True, null=True)
 
     # Technology Touch Details
     emails_in = models.PositiveIntegerField(null=True, default=0)
@@ -58,9 +60,34 @@ class InterventionParticipant(models.Model):
         return self.tt_in + self.tt_out
 
     class Meta:
+        abstract = True
+
+
+class ControlParticipant(Participant):
+    """ The ControlParticipant model does not contain any additional data to
+        the fields provided by the Participant superclass.
+    """
+
+    class Meta(Participant.Meta):
+        abstract = False
         app_label = 'app'
-        verbose_name = u'InterventionParticipant'
-        verbose_name_plural = u'InterventionParticipants'
+        verbose_name = 'Control Participant'
+        verbose_name_plural = 'Control Participants'
+
+
+class InterventionParticipant(Participant):
+    """ The InterventionParticipant model stores the necessary information
+        to calculate study adherence from base fat and step goal values.
+    """
+
+    base_fat_goal = models.PositiveIntegerField(blank=True, null=True)
+    base_step_goal = models.PositiveIntegerField(blank=True, null=True)
+
+    class Meta(Participant.Meta):
+        abstract = False
+        app_label = 'app'
+        verbose_name = u'Intervention Participant'
+        verbose_name_plural = u'Intervention Participants'
 
 
 class Call(models.Model):
