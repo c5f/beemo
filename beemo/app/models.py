@@ -204,7 +204,17 @@ def calculate_steps_score(value, goal_value):
         return 0
 
 
-def calculate_adherence_score(participant, call):
+def calculate_adherence_score(i_part, call):
+    """ This method calculates the adherence score using various techniques to
+        glean whether a participant has been adhering to the nutrition and
+        fitness requirements of the program.
+
+        Keyword Arguments:
+        i_part -- an InterventionParticipant instance with valid required
+            nutrition and fitness information.
+        call -- a Call instance with valid required nutrition and fitness
+            information
+    """
 
     # Only calculate if all fields are present
     if (call.fat_grams and
@@ -212,16 +222,16 @@ def calculate_adherence_score(participant, call):
             call.fiber_grams and
             call.veg_servings and
             call.steps and
-            participant.base_fat_goal and
-            participant.base_step_goal):
+            i_part.base_fat_goal and
+            i_part.base_step_goal):
 
         return (
             calculate_veg_servings_score(call.veg_servings) +
             calculate_fruit_servings_score(call.fruit_servings) +
             calculate_fiber_grams_score(call.fiber_grams) +
             calculate_fat_grams_score(
-                call.fat_grams, participant.base_fat_goal) +
-            calculate_steps_score(call.steps, participant.base_step_goal)
+                call.fat_grams, i_part.base_fat_goal) +
+            calculate_steps_score(call.steps, i_part.base_step_goal)
             ) / 5.0
 
     else:
