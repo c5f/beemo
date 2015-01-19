@@ -14,9 +14,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from app.models import Email
 from app.models import Phone
-from app.models import Participant
+from app.models import InterventionParticipant
 from app.models import Call
-from app.models import ParticipantProblem
+from app.models import InterventionParticipantProblem
 
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
@@ -39,7 +39,7 @@ class RNode(Base):
     status = Column('status', Integer)
 
 
-class RInterventionParticipant(Base):
+class RInterventionInterventionParticipant(Base):
 
     __tablename__ = 'content_type_participant'
     __table_args__ = ({'autoload': False})
@@ -126,7 +126,7 @@ def update_participants(session, issue_list):
 def update_intervention_participants(session, issue_list):
 
     for r_participant in session.query(
-            RInterventionParticipant).filter_by(ptype=1):
+            RInterventionInterventionParticipant).filter_by(ptype=1):
 
         mobile = None
 
@@ -137,9 +137,10 @@ def update_intervention_participants(session, issue_list):
         r_node = session.query(RNode).get(r_participant.nid)
 
         try:
-            participant = Participant.objects.get(pid=r_participant.pid)
-        except Participant.DoesNotExist:
-            participant = Participant(pid=r_participant.pid)
+            participant = InterventionParticipant.objects.get(
+                pid=r_participant.pid)
+        except InterventionParticipant.DoesNotExist:
+            participant = InterventionParticipant(pid=r_participant.pid)
 
         participant.creation_date = datetime.datetime.fromtimestamp(
             r_node.created)
@@ -155,7 +156,7 @@ def update_intervention_participants(session, issue_list):
                 'participant': participant.pid,
                 'call_num': 'Error in participant object',
                 'reason': 'Value: %s' % r_participant.fat_grams,
-                'field': 'Participant: Fat Goal'
+                'field': 'InterventionParticipant: Fat Goal'
             })
 
             participant.base_fat_goal = None
@@ -170,7 +171,7 @@ def update_intervention_participants(session, issue_list):
                 'participant': participant.pid,
                 'call_num': 'Error in participant object',
                 'reason': 'Value: %s' % r_participant.steps,
-                'field': 'Participant: Step Goal'
+                'field': 'InterventionParticipant: Step Goal'
             })
 
             participant.base_step_goal = None
@@ -189,14 +190,14 @@ def update_phone_numbers(session, issue_list):
 
     # Get a list of the intervention group's node ids
     nids = [int(i) for (i,) in session.query(
-        RInterventionParticipant.nid).filter_by(ptype=1)]
+        RInterventionInterventionParticipant.nid).filter_by(ptype=1)]
 
     for r_phone in session.query(RPhone).filter(RPhone.nid.in_(nids)):
 
-        # Find the Participant object for this phone number
-        pid = session.query(RInterventionParticipant).filter_by(
+        # Find the InterventionParticipant object for this phone number
+        pid = session.query(RInterventionInterventionParticipant).filter_by(
             nid=r_phone.nid).first().pid
-        participant = Participant.objects.get(pid=pid)
+        participant = InterventionParticipant.objects.get(pid=pid)
 
         # Strip non-digit characters
         phone_number = ''.join([i for i in r_phone.phone if i.isdigit()])
@@ -222,16 +223,18 @@ def update_emails(issue_list):
             if len(parts) == 2:
 
                 try:
-                    participant = Participant.objects.get(pid=parts[0])
+                    participant = InterventionParticipant.objects.get(
+                        pid=parts[0])
 
                     Email.objects.get_or_create(
                         email=parts[1].strip(), participant=participant)
-                except Participant.DoesNotExist:
+                except InterventionParticipant.DoesNotExist:
 
                     issue_list.append({
                         'participant': parts[0],
                         'call_num': 'Error in email list',
-                        'reason': 'Invalid Participant ID in email list',
+                        'reason': 'Invalid InterventionParticipant ID in \
+                            email list',
                         'field': 'participant id'
                     })
 
@@ -265,17 +268,17 @@ def update_calls(session, issue_list):
 
     # Get a list of the intervention group's node ids
     nids = [int(i) for (i,) in session.query(
-        RInterventionParticipant.nid).filter_by(ptype=1)]
+        RInterventionInterventionParticipant.nid).filter_by(ptype=1)]
 
     # We are only concerned with completed calls that belong to our sample
     # group
     for r_call in session.query(RCall).filter(RCall.pnid.in_(nids)).filter(
             RCall.completed is not None):
 
-        # Find the Participant object for this call
-        pid = session.query(RInterventionParticipant).filter_by(
+        # Find the InterventionParticipant object for this call
+        pid = session.query(RInterventionInterventionParticipant).filter_by(
             nid=r_call.pnid).first().pid
-        participant = Participant.objects.get(pid=pid)
+        participant = InterventionParticipant.objects.get(pid=pid)
 
         # Check if this Call object is already in our database
         try:
@@ -406,25 +409,26 @@ def update_problems(session, issue_list):
 
     # Get a list of the intervention group's node ids
     nids = [int(i) for (i,) in session.query(
-        RInterventionParticipant.nid).filter_by(ptype=1)]
+        RInterventionInterventionParticipant.nid).filter_by(ptype=1)]
 
     for r_problem in session.query(RProblem).filter(
             RProblem.participant_nid.in_(nids)):
 
-        # Find the Participant for this problem
-        pid = session.query(RInterventionParticipant).filter_by(
+        # Find the InterventionParticipant for this problem
+        pid = session.query(RInterventionInterventionParticipant).filter_by(
             nid=r_problem.participant_nid).first().pid
-        participant = Participant.objects.get(pid=pid)
+        participant = InterventionParticipant.objects.get(pid=pid)
 
         r_date = datetime.datetime.strptime(
             r_problem.date, '%Y-%m-%dT%H:%M:%S').date()
 
         # Check for an existing problem
         try:
-            problem = ParticipantProblem.objects.get(
+            problem = InterventionParticipantProblem.objects.get(
                 participant=participant, date=r_date)
-        except ParticipantProblem.DoesNotExist:
-            problem = ParticipantProblem(participant=participant, date=r_date)
+        except InterventionParticipantProblem.DoesNotExist:
+            problem = InterventionParticipantProblem(
+                participant=participant, date=r_date)
 
         # Update field
         problem.problem = r_problem.problem_type

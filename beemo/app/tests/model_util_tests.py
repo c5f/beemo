@@ -2,7 +2,7 @@ import mock
 
 from django.test import TestCase
 
-from app.models import Participant
+from app.models import InterventionParticipant
 from app.models import Call
 from app.models import calculate_adherence_score
 from app.models import calculate_veg_servings_score
@@ -16,7 +16,7 @@ class ModelUtilTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.participant = mock.Mock(spec=Participant)
+        cls.participant = mock.Mock(spec=InterventionParticipant)
         cls.call = mock.Mock(spec=Call)
 
         cls.participant.base_fat_goal = None

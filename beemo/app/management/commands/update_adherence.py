@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from app.models import Call
-from app.models import Participant
+from app.models import InterventionParticipant
 from app.models import calculate_adherence_score
 
 

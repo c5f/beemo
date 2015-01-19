@@ -4,7 +4,8 @@ from django.db import models
 class Email(models.Model):
 
     email = models.EmailField(primary_key=True)
-    participant = models.ForeignKey('Participant', related_name='emails')
+    participant = models.ForeignKey(
+        'InterventionParticipant', related_name='emails')
 
     class Meta:
         app_label = 'app'
@@ -22,7 +23,7 @@ class Phone(models.Model):
         verbose_name_plural = 'Phone Numbers'
 
 
-class Participant(models.Model):
+class InterventionParticipant(models.Model):
 
     pid = models.CharField(max_length=60, primary_key=True)
     creation_date = models.DateField()
@@ -30,7 +31,7 @@ class Participant(models.Model):
     sms_number = models.ForeignKey(
         Phone, blank=True, null=True, related_name='sms_participant')
 
-    # Experiment Participant Fields
+    # Experiment InterventionParticipant Fields
     base_fat_goal = models.PositiveIntegerField(blank=True, null=True)
     base_step_goal = models.PositiveIntegerField(blank=True, null=True)
 
@@ -58,14 +59,15 @@ class Participant(models.Model):
 
     class Meta:
         app_label = 'app'
-        verbose_name = u'Participant'
-        verbose_name_plural = u'Participants'
+        verbose_name = u'InterventionParticipant'
+        verbose_name_plural = u'InterventionParticipants'
 
 
 class Call(models.Model):
 
     number = models.IntegerField()
-    participant = models.ForeignKey(Participant, related_name='calls')
+    participant = models.ForeignKey(
+        InterventionParticipant, related_name='calls')
     completed_date = models.DateField()
     goal_met = models.BooleanField()
 
@@ -83,16 +85,16 @@ class Call(models.Model):
         verbose_name_plural = u'Calls'
 
 
-class ParticipantProblem(models.Model):
+class InterventionParticipantProblem(models.Model):
 
-    participant = models.ForeignKey('Participant')
+    participant = models.ForeignKey('InterventionParticipant')
     date = models.DateField()
     problem = models.TextField(blank=True)
 
     class Meta:
         app_label = 'app'
-        verbose_name = u'Participant Problem'
-        verbose_name_plural = u'Participant Problems'
+        verbose_name = u'InterventionParticipant Problem'
+        verbose_name_plural = u'InterventionParticipant Problems'
 
 
 # Model utility functions

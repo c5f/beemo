@@ -1,9 +1,9 @@
 from app.tests.utils import build_test_suite_from
-from .participant_tests import ParticipantTestCase
+from .participant_tests import InterventionParticipantTestCase
 from .model_util_tests import ModelUtilTestCase
 
 test_cases = [
-    ParticipantTestCase,
+    InterventionParticipantTestCase,
     ModelUtilTestCase
 ]
 

@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 from beemo.settings import GMAIL_INFO
 from beemo.settings import TWILIO_INFO
 
-from app.models import Participant
+from app.models import InterventionParticipant
 
 twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/\
     ' % TWILIO_INFO['sid']
@@ -98,7 +98,7 @@ def update_technology_touches():
     gmail.login(GMAIL_INFO['user'], GMAIL_INFO['pass'])
     gmail.select_folder('[Gmail]/All Mail')
 
-    for participant in Participant.objects.all():
+    for participant in InterventionParticipant.objects.all():
 
         update_email_counts(participant, gmail)
         update_call_counts(participant)
