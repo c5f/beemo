@@ -4,8 +4,8 @@ from django.db import models
 class Email(models.Model):
 
     email = models.EmailField(primary_key=True)
-    participant = models.ForeignKey('Participant', related_name='emails')
-
+    participant = models.ForeignKey(
+        'InterventionParticipant', related_name='emails')
 
     class Meta:
         app_label = 'app'
@@ -17,21 +17,21 @@ class Phone(models.Model):
 
     number = models.CharField(max_length=10, primary_key=True)
 
-
     class Meta:
         app_label = 'app'
         verbose_name = 'Phone Number'
         verbose_name_plural = 'Phone Numbers'
 
 
-class Participant(models.Model):
+class InterventionParticipant(models.Model):
 
     pid = models.CharField(max_length=60, primary_key=True)
     creation_date = models.DateField()
     phone_numbers = models.ManyToManyField(Phone)
-    sms_number = models.ForeignKey(Phone, blank=True, null=True, related_name='sms_participant')
+    sms_number = models.ForeignKey(
+        Phone, blank=True, null=True, related_name='sms_participant')
 
-    # Experiment Participant Fields
+    # Experiment InterventionParticipant Fields
     base_fat_goal = models.PositiveIntegerField(blank=True, null=True)
     base_step_goal = models.PositiveIntegerField(blank=True, null=True)
 
@@ -59,14 +59,15 @@ class Participant(models.Model):
 
     class Meta:
         app_label = 'app'
-        verbose_name = u'Participant'
-        verbose_name_plural = u'Participants'
-        
+        verbose_name = u'InterventionParticipant'
+        verbose_name_plural = u'InterventionParticipants'
+
 
 class Call(models.Model):
 
     number = models.IntegerField()
-    participant = models.ForeignKey(Participant, related_name='calls')
+    participant = models.ForeignKey(
+        InterventionParticipant, related_name='calls')
     completed_date = models.DateField()
     goal_met = models.BooleanField()
 
@@ -78,29 +79,27 @@ class Call(models.Model):
 
     adherence_score = models.FloatField(null=True)
 
-
     class Meta:
         app_label = 'app'
         verbose_name = u'Call'
         verbose_name_plural = u'Calls'
 
 
-class ParticipantProblem(models.Model):
+class InterventionParticipantProblem(models.Model):
 
-    participant = models.ForeignKey('Participant')
+    participant = models.ForeignKey('InterventionParticipant')
     date = models.DateField()
     problem = models.TextField(blank=True)
 
-
     class Meta:
         app_label = 'app'
-        verbose_name = u'Participant Problem'
-        verbose_name_plural = u'Participant Problems'
+        verbose_name = u'InterventionParticipant Problem'
+        verbose_name_plural = u'InterventionParticipant Problems'
 
 
 # Model utility functions
 def calculate_veg_servings_score(value):
-    
+
     if value > 3:
         return 5
 
@@ -115,7 +114,7 @@ def calculate_veg_servings_score(value):
 
 
 def calculate_fruit_servings_score(value):
-    
+
     if value > 2:
         return 5
 
@@ -130,7 +129,7 @@ def calculate_fruit_servings_score(value):
 
 
 def calculate_fiber_grams_score(value):
-    
+
     if value > 29:
         return 5
 
@@ -145,7 +144,7 @@ def calculate_fiber_grams_score(value):
 
 
 def calculate_fat_grams_score(value, goal_value):
-    
+
     percentage = value / float(goal_value)
 
     if percentage < 1.1:
@@ -162,9 +161,9 @@ def calculate_fat_grams_score(value, goal_value):
 
 
 def calculate_steps_score(value, goal_value):
-    
+
     difference = value - goal_value
-    
+
     if difference < 1:
         return 5
 
@@ -181,21 +180,22 @@ def calculate_steps_score(value, goal_value):
 def calculate_adherence_score(participant, call):
 
     # Only calculate if all fields are present
-    if (call.fat_grams and 
-        call.fruit_servings and 
-        call.fiber_grams and 
-        call.veg_servings and 
-        call.steps and 
-        participant.base_fat_goal and 
-        participant.base_step_goal):
+    if (call.fat_grams and
+            call.fruit_servings and
+            call.fiber_grams and
+            call.veg_servings and
+            call.steps and
+            participant.base_fat_goal and
+            participant.base_step_goal):
 
         return (
             calculate_veg_servings_score(call.veg_servings) +
             calculate_fruit_servings_score(call.fruit_servings) +
             calculate_fiber_grams_score(call.fiber_grams) +
-            calculate_fat_grams_score(call.fat_grams, participant.base_fat_goal) +
+            calculate_fat_grams_score(
+                call.fat_grams, participant.base_fat_goal) +
             calculate_steps_score(call.steps, participant.base_step_goal)
-        ) / 5.0
+            ) / 5.0
 
     else:
         return None

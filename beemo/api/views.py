@@ -1,8 +1,10 @@
 # Import Models
-from app.models import Call, Participant
+from app.models import Call
+from app.models import InterventionParticipant
 
 # Import Serializers
-from api.serializers import CallSerializer, ParticipantSerializer
+from api.serializers import CallSerializer
+from api.serializers import InterventionParticipantSerializer
 
 from rest_framework import generics
 from rest_framework import filters
@@ -25,7 +27,7 @@ class CallDetail(generics.RetrieveAPIView):
     serializer_class = CallSerializer
 
 
-class ParticipantList(generics.ListAPIView):
+class InterventionParticipantList(generics.ListAPIView):
     serializer_class = ParticipantSerializer
 
     paginate_by = 100
@@ -33,9 +35,9 @@ class ParticipantList(generics.ListAPIView):
     max_paginate_by = 500
 
     def get_queryset(self):
-        return Participant.objects.all()
+        return InterventionParticipant.objects.all()
 
 
-class ParticipantDetail(generics.RetrieveAPIView):
-    queryset = Participant.objects.all()
-    serializer_class = ParticipantSerializer
+class InterventionParticipantDetail(generics.RetrieveAPIView):
+    queryset = InterventionParticipant.objects.all()
+    serializer_class = InterventionParticipantSerializer
