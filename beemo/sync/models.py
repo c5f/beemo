@@ -108,6 +108,22 @@ class RequiredValueError(Exception):
 
 
 def update_participants(session, issue_list):
+    """ This method updates participant data within beemo by calling two helper
+        methods which update control and intervention participant data.
+
+        Keyword Arguments:
+        session -- the SQLAlchemy session to be used to query data.
+        issue_list -- a list of potential problems with remote participant
+            data.
+    """
+
+    update_intervention_participants(session, issue_list)
+
+    # TODO: Implement this method and uncomment this line.
+    # update_control_participants(session, issue_list)
+
+
+def update_intervention_participants(session, issue_list):
 
     for r_participant in session.query(
             RInterventionParticipant).filter_by(ptype=1):
