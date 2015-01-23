@@ -1,8 +1,14 @@
-import pprint, csv
+import pprint
+import csv
 
 from django.core.management.base import BaseCommand
 
-from sync.models import Session, update_participants, update_phone_numbers, update_emails, update_calls, update_problems
+from sync.models import Session
+from sync.models import update_participants
+from sync.models import update_phone_numbers
+from sync.models import update_emails
+from sync.models import update_calls
+from sync.models import update_problems
 
 
 class Command(BaseCommand):
