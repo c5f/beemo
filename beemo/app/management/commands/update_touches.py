@@ -8,8 +8,8 @@ from beemo.settings import TWILIO_INFO
 
 from app.models import InterventionParticipant
 
-twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/\
-    ' % TWILIO_INFO['sid']
+twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/' %\
+    TWILIO_INFO['sid']
 twilio_auth = (TWILIO_INFO['sid'], TWILIO_INFO['token'])
 
 
