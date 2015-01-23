@@ -1,11 +1,17 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 
 class Email(models.Model):
 
     email = models.EmailField(primary_key=True)
-    participant = models.ForeignKey(
-        'InterventionParticipant', related_name='emails')
+
+    # Generic foreign key relationship to Participant subclasses.
+    participant_type = models.ForeignKey(ContentType)
+    participant_pid = models.CharField(max_length=60)
+    participant = generic.GenericForeignKey('participant_type',
+                                            'participant_pid')
 
     class Meta:
         app_label = 'app'
@@ -17,10 +23,42 @@ class Phone(models.Model):
 
     number = models.CharField(max_length=10, primary_key=True)
 
+    # Generic foreign key relationship to Participant subclasses.
+    participant_type = models.ForeignKey(ContentType)
+    participant_pid = models.CharField(max_length=60)
+    participant = generic.GenericForeignKey('participant_type',
+                                            'participant_pid')
+
     class Meta:
         app_label = 'app'
         verbose_name = 'Phone Number'
         verbose_name_plural = 'Phone Numbers'
+
+
+class Call(models.Model):
+
+    number = models.IntegerField()
+    completed_date = models.DateField()
+    goal_met = models.BooleanField()
+
+    veg_servings = models.PositiveIntegerField(null=True)
+    fruit_servings = models.PositiveIntegerField(null=True)
+    fiber_grams = models.PositiveIntegerField(null=True)
+    fat_grams = models.PositiveIntegerField(null=True)
+    steps = models.PositiveIntegerField(null=True)
+
+    adherence_score = models.FloatField(null=True)
+
+    # Generic foreign key relationship to Participant subclasses.
+    participant_type = models.ForeignKey(ContentType)
+    participant_pid = models.CharField(max_length=60)
+    participant = generic.GenericForeignKey('participant_type',
+                                            'participant_pid')
+
+    class Meta:
+        app_label = 'app'
+        verbose_name = u'Call'
+        verbose_name_plural = u'Calls'
 
 
 class Participant(models.Model):
@@ -33,9 +71,21 @@ class Participant(models.Model):
 
     pid = models.CharField(max_length=60, primary_key=True)
     creation_date = models.DateField()
-    phone_numbers = models.ManyToManyField(Phone)
-    sms_number = models.ForeignKey(
-        Phone, blank=True, null=True, related_name='sms_participant')
+    sms_number = models.ForeignKey(Phone, null=True, blank=True,
+                                   related_name='sms_%(class)s')
+
+    # Reverse Generic Relationships
+    phone_numbers = generic.GenericRelation(
+        Phone, content_type_field='participant_type',
+        object_id_field='participant_pid')
+
+    emails = generic.GenericRelation(
+        Email, content_type_field='participant_type',
+        object_id_field='participant_pid')
+
+    calls = generic.GenericRelation(
+        Call, content_type_field='participant_type',
+        object_id_field='participant_pid')
 
     # Technology Touch Details
     emails_in = models.PositiveIntegerField(null=True, default=0)
@@ -90,33 +140,16 @@ class InterventionParticipant(Participant):
         verbose_name_plural = u'Intervention Participants'
 
 
-class Call(models.Model):
+class ParticipantProblem(models.Model):
 
-    number = models.IntegerField()
-    participant = models.ForeignKey(
-        InterventionParticipant, related_name='calls')
-    completed_date = models.DateField()
-    goal_met = models.BooleanField()
-
-    veg_servings = models.PositiveIntegerField(null=True)
-    fruit_servings = models.PositiveIntegerField(null=True)
-    fiber_grams = models.PositiveIntegerField(null=True)
-    fat_grams = models.PositiveIntegerField(null=True)
-    steps = models.PositiveIntegerField(null=True)
-
-    adherence_score = models.FloatField(null=True)
-
-    class Meta:
-        app_label = 'app'
-        verbose_name = u'Call'
-        verbose_name_plural = u'Calls'
-
-
-class InterventionParticipantProblem(models.Model):
-
-    participant = models.ForeignKey('InterventionParticipant')
     date = models.DateField()
     problem = models.TextField(blank=True)
+
+    # Generic foreign key relationship to Participant subclasses.
+    participant_type = models.ForeignKey(ContentType)
+    participant_pid = models.CharField(max_length=60)
+    participant = generic.GenericForeignKey('participant_type',
+                                            'participant_pid')
 
     class Meta:
         app_label = 'app'
