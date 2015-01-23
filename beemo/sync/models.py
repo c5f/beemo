@@ -14,9 +14,10 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from app.models import Email
 from app.models import Phone
+from app.models import ControlParticipant
 from app.models import InterventionParticipant
 from app.models import Call
-from app.models import InterventionParticipantProblem
+from app.models import ParticipantProblem
 
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
@@ -128,23 +129,31 @@ def update_intervention_participants(session, issue_list):
     for r_participant in session.query(
             RParticipant).filter_by(ptype=1):
 
-        mobile = None
-
-        if r_participant.mobile:
-            mobile = Phone.objects.get_or_create(
-                number=r_participant.mobile)[0]
-
-        r_node = session.query(RNode).get(r_participant.nid)
-
         try:
             participant = InterventionParticipant.objects.get(
                 pid=r_participant.pid)
         except InterventionParticipant.DoesNotExist:
             participant = InterventionParticipant(pid=r_participant.pid)
 
+        r_node = session.query(RNode).get(r_participant.nid)
+
         participant.creation_date = datetime.datetime.fromtimestamp(
             r_node.created)
+
+        mobile = None
+
+        if r_participant.mobile:
+            try:
+                mobile = Phone.objects.get(number=r_participant.mobile)
+            except Phone.DoesNotExist:
+                mobile = Phone(number=r_participant.mobile,
+                               participant=participant)
+                mobile.save()
+
         participant.sms_number = mobile
+
+        if mobile:
+            participant.phone_numbers.add(mobile)
 
         try:
             participant.base_fat_goal = massage_number(
@@ -176,14 +185,19 @@ def update_intervention_participants(session, issue_list):
 
             participant.base_step_goal = None
 
-        if mobile:
-            participant.phone_numbers.add(mobile)
-
         participant.save()
 
         if r_participant.email:
-            email = Email.objects.get_or_create(
-                email=r_participant.email.strip(), participant=participant)[0]
+
+            # This had to be refactored from Email.get_or_create() for the
+            # ContentType Generic Relationship implementation.
+            try:
+                email = Email.objects.get(participant_pid=participant.pid,
+                                          email=r_participant.email.strip())
+            except Email.DoesNotExist:
+                email = Email(participant=participant,
+                              email=r_participant.email.strip())
+                email.save()
 
 
 def update_phone_numbers(session, issue_list):
@@ -194,10 +208,18 @@ def update_phone_numbers(session, issue_list):
 
     for r_phone in session.query(RPhone).filter(RPhone.nid.in_(nids)):
 
-        # Find the InterventionParticipant object for this phone number
+        # Find the Participant object for this phone number
         pid = session.query(RParticipant).filter_by(
             nid=r_phone.nid).first().pid
-        participant = InterventionParticipant.objects.get(pid=pid)
+
+        # Try loading from each Participant table.
+        try:
+            participant = ControlParticipant.objects.get(pid=pid)
+        except ControlParticipant.DoesNotExist:
+            participant = InterventionParticipant.objects.get(pid=pid)
+        except InterventionParticipant.DoesNotExist:
+            raise Participant.DoesNotExist('No Participant found for pid %s' %
+                                           pid)
 
         # Strip non-digit characters
         phone_number = ''.join([i for i in r_phone.phone if i.isdigit()])
@@ -205,8 +227,15 @@ def update_phone_numbers(session, issue_list):
         # Trim anything beyond 10 digits
         phone_number = phone_number[:10]
 
-        # Add this phone number to our database
-        phone = Phone.objects.get_or_create(number=phone_number)[0]
+        # Add this phone number to our database...
+        # This had to be refactored from Phone.get_or_create() for the
+        # ContentType Generic Relationship implementation.
+        try:
+            phone = Phone.objects.get(number=phone_number)
+        except Phone.DoesNotExist:
+            phone = Phone(number=phone_number,
+                          participant=participant)
+            phone.save()
 
         # Add this phone number to this participant
         participant.phone_numbers.add(phone)
@@ -226,8 +255,16 @@ def update_emails(issue_list):
                     participant = InterventionParticipant.objects.get(
                         pid=parts[0])
 
-                    Email.objects.get_or_create(
-                        email=parts[1].strip(), participant=participant)
+
+                    # This had to be refactored from Email.get_or_create()
+                    # for the ContentType Generic Relationship implementation.
+                    try:
+                        Email.objects.get(email=parts[1].strip())
+                    except Email.DoesNotExist:
+                        email = Email(email=parts[1].strip(),
+                                      participant=participant)
+                        email.save()
+
                 except InterventionParticipant.DoesNotExist:
 
                     issue_list.append({
@@ -275,6 +312,10 @@ def update_calls(session, issue_list):
     for r_call in session.query(RCall).filter(RCall.pnid.in_(nids)).filter(
             RCall.completed is not None):
 
+        # If this Call is not complete, skip it.
+        if not r_call.completed:
+            continue
+
         # Find the InterventionParticipant object for this call
         pid = session.query(RParticipant).filter_by(
             nid=r_call.pnid).first().pid
@@ -283,7 +324,7 @@ def update_calls(session, issue_list):
         # Check if this Call object is already in our database
         try:
             call = Call.objects.get(
-                participant=participant, number=r_call.number)
+                participant_pid=participant.pid, number=r_call.number)
         except Call.DoesNotExist:
             call = Call(participant=participant, number=r_call.number)
 
@@ -424,10 +465,10 @@ def update_problems(session, issue_list):
 
         # Check for an existing problem
         try:
-            problem = InterventionParticipantProblem.objects.get(
-                participant=participant, date=r_date)
-        except InterventionParticipantProblem.DoesNotExist:
-            problem = InterventionParticipantProblem(
+            problem = ParticipantProblem.objects.get(
+                participant_pid=participant.pid, date=r_date)
+        except ParticipantProblem.DoesNotExist:
+            problem = ParticipantProblem(
                 participant=participant, date=r_date)
 
         # Update field
