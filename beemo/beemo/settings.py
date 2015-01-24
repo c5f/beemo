@@ -2,15 +2,15 @@ import os
 
 # Twilio API information
 TWILIO_INFO = {
-    'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID', 'BEEMO_TWILIO_ACCOUNT_SID'),
-    'token': os.environ.get('BEEMO_TWILIO_AUTH_TOKEN', 'BEEMO_TWILIO_AUTH_TOKEN')
-}
+    'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID'),
+    'token': os.environ.get('BEEMO_TWILIO_AUTH_TOKEN')}
 
 # Gmail IMAP information
-GMAIL_INFO = {
-    'user': os.environ.get('BEEMO_GMAIL_USERNAME', 'BEEMO_GMAIL_USERNAME'),
-    'pass': os.environ.get('BEEMO_GMAIL_PASSWORD', 'BEEMO_GMAIL_PASSWORD')
-}
+GMAIL_ACCTS = {
+    'control': (os.environ.get('BEEMO_CONTROL_GMAIL_USERNAME'),
+                os.environ.get('BEEMO_CONTROL_GMAIL_PASSWORD')),
+    'intervention': (os.environ.get('BEEMO_INTERVENTION_GMAIL_USERNAME'),
+                     os.environ.get('BEEMO_INTERVENTION_GMAIL_PASSWORD'))}
 
 # Django settings for beemo project.
 
@@ -93,7 +93,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -103,7 +103,7 @@ SECRET_KEY = 'q%#-yz*w-h!fv7kxw(=@(#!hdl7ff*8=%d*mbjuaw6k^(l_zry'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 # A tuple of callables that are used to populate the context in RequestContext.
@@ -133,7 +133,8 @@ ROOT_URLCONF = 'beemo.urls'
 WSGI_APPLICATION = 'beemo.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like
+    #     "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     os.getcwd() + '/app/static/app',
     os.getcwd() + '/templates',
