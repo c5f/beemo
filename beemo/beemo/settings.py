@@ -1,10 +1,12 @@
 import os
 
 # Twilio API information
-TWILIO_INFO = {
-    'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID', 'BEEMO_TWILIO_ACCOUNT_SID'),
-    'token': os.environ.get('BEEMO_TWILIO_AUTH_TOKEN', 'BEEMO_TWILIO_AUTH_TOKEN')
-}
+TWILIO_ACCTS_LIST = list()
+for index in range(1, os.environ.get('BEEMO_TWILIO_ACCT_COUNT', 0)):
+    TWILIO_ACCTS_LIST.append({
+        'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID_' % index)
+        'auth': (os.environ.get('BEEMO_TWILIO_ACCOUNT_SID_' % index),
+                 os.environ.get('BEEMO_TWILIO_AUTH_TOKEN_' % index))})
 
 # Gmail IMAP information
 GMAIL_INFO = {
@@ -93,7 +95,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -103,7 +105,7 @@ SECRET_KEY = 'q%#-yz*w-h!fv7kxw(=@(#!hdl7ff*8=%d*mbjuaw6k^(l_zry'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 # A tuple of callables that are used to populate the context in RequestContext.
@@ -133,7 +135,8 @@ ROOT_URLCONF = 'beemo.urls'
 WSGI_APPLICATION = 'beemo.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like
+    #     "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     os.getcwd() + '/app/static/app',
     os.getcwd() + '/templates',
