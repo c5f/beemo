@@ -118,10 +118,54 @@ def update_participants(session, issue_list):
             data.
     """
 
+    update_control_participants(session, issue_list)
     update_intervention_participants(session, issue_list)
 
-    # TODO: Implement this method and uncomment this line.
-    # update_control_participants(session, issue_list)
+
+def update_control_participants(session, issue_list):
+
+    for r_participant in session.query(
+            RParticipant).filter_by(ptype=0):
+
+        try:
+            participant = ControlParticipant.objects.get(
+                pid=r_participant.pid)
+        except ControlParticipant.DoesNotExist:
+            participant = ControlParticipant(pid=r_participant.pid)
+
+        r_node = session.query(RNode).get(r_participant.nid)
+
+        participant.creation_date = datetime.datetime.fromtimestamp(
+            r_node.created)
+
+        mobile = None
+
+        if r_participant.mobile:
+            try:
+                mobile = Phone.objects.get(number=r_participant.mobile)
+            except Phone.DoesNotExist:
+                mobile = Phone(number=r_participant.mobile,
+                               participant=participant)
+                mobile.save()
+
+        participant.sms_number = mobile
+
+        if mobile:
+            participant.phone_numbers.add(mobile)
+
+        participant.save()
+
+        if r_participant.email:
+
+            # This had to be refactored from Email.get_or_create() for the
+            # ContentType Generic Relationship implementation.
+            try:
+                email = Email.objects.get(participant_pid=participant.pid,
+                                          email=r_participant.email.strip())
+            except Email.DoesNotExist:
+                email = Email(participant=participant,
+                              email=r_participant.email.strip())
+                email.save()
 
 
 def update_intervention_participants(session, issue_list):
