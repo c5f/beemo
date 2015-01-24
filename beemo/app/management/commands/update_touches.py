@@ -1,3 +1,4 @@
+import datetime
 import requests
 from imapclient import IMAPClient
 
@@ -6,6 +7,7 @@ from django.core.management.base import BaseCommand
 from beemo.settings import GMAIL_ACCTS
 from beemo.settings import TWILIO_INFO
 
+from app.models import ControlParticipant
 from app.models import InterventionParticipant
 
 twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/' %\
@@ -87,13 +89,13 @@ def update_sms_counts(participant):
     participant.save()
 
 
-def update_technology_touches():
+def update_technology_touches(duration=datetime.timedelta(weeks=24)):
 
-    update_control_technology_touches()
-    update_intervention_technology_touches()
+    update_control_technology_touches(duration)
+    update_intervention_technology_touches(duration)
 
 
-def update_control_technology_touches():
+def update_control_technology_touches(duration):
 
     gmail = IMAPClient(
         'imap.gmail.com',
@@ -115,7 +117,7 @@ def update_control_technology_touches():
     gmail.logout()
 
 
-def update_intervention_technology_touches():
+def update_intervention_technology_touches(duration):
 
     gmail = IMAPClient(
         'imap.gmail.com',
