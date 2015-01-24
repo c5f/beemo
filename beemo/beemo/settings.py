@@ -1,18 +1,17 @@
 import os
 
 # Twilio API information
-TWILIO_ACCTS_LIST = list()
-for index in range(1, os.environ.get('BEEMO_TWILIO_ACCT_COUNT', 0)):
-    TWILIO_ACCTS_LIST.append({
-        'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID_' % index)
-        'auth': (os.environ.get('BEEMO_TWILIO_ACCOUNT_SID_' % index),
-                 os.environ.get('BEEMO_TWILIO_AUTH_TOKEN_' % index))})
+TWILIO_INFO = {
+    'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID', 'BEEMO_TWILIO_ACCOUNT_SID'),
+    'token': os.environ.get('BEEMO_TWILIO_AUTH_TOKEN', 'BEEMO_TWILIO_AUTH_TOKEN')
+}
 
 # Gmail IMAP information
-GMAIL_INFO = {
-    'user': os.environ.get('BEEMO_GMAIL_USERNAME', 'BEEMO_GMAIL_USERNAME'),
-    'pass': os.environ.get('BEEMO_GMAIL_PASSWORD', 'BEEMO_GMAIL_PASSWORD')
-}
+GMAIL_ACCTS = {
+    'control': (os.environ.get('BEEMO_CONTROL_GMAIL_USERNAME'),
+                os.environ.get('BEEMO_CONTROL_GMAIL_PASSWORD')),
+    'intervention': (os.environ.get('BEEMO_INTERVENTION_GMAIL_USERNAME'),
+                     os.environ.get('BEEMO_INTERVENTION_GMAIL_PASSWORD'))}
 
 # Django settings for beemo project.
 
