@@ -89,7 +89,30 @@ def update_sms_counts(participant):
 
 def update_technology_touches():
 
+    update_control_technology_touches()
     update_intervention_technology_touches()
+
+
+def update_control_technology_touches():
+
+    gmail = IMAPClient(
+        'imap.gmail.com',
+        use_uid=True,
+        ssl=True
+    )
+
+    gmail.login(*GMAIL_ACCTS['control'])
+    gmail.select_folder('[Gmail]/All Mail')
+
+    for participant in ControlParticipant.objects.all():
+
+        update_email_counts(participant, gmail)
+        update_call_counts(participant)
+
+        if participant.sms_number:
+            update_sms_counts(participant)
+
+    gmail.logout()
 
 
 def update_intervention_technology_touches():
