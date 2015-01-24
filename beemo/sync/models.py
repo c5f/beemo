@@ -516,9 +516,8 @@ def update_calls(session, issue_list):
 
 def update_problems(session, issue_list):
 
-    # Get a list of the intervention group's node ids
-    nids = [int(i) for (i,) in session.query(
-        RParticipant.nid).filter_by(ptype=1)]
+    # Get a list of the Participant Drupal nids.
+    nids = [int(i) for (i,) in session.query(RParticipant.nid).all()]
 
     for r_problem in session.query(RProblem).filter(
             RProblem.participant_nid.in_(nids)):
