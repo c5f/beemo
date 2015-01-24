@@ -295,19 +295,10 @@ def update_emails(issue_list):
             if len(parts) == 2:
 
                 try:
+                    particiapnt = ControlParticipant.objects.get(pid=parts[0])
+                except ControlParticipant.DoesNotExist:
                     participant = InterventionParticipant.objects.get(
                         pid=parts[0])
-
-
-                    # This had to be refactored from Email.get_or_create()
-                    # for the ContentType Generic Relationship implementation.
-                    try:
-                        Email.objects.get(email=parts[1].strip())
-                    except Email.DoesNotExist:
-                        email = Email(email=parts[1].strip(),
-                                      participant=participant)
-                        email.save()
-
                 except InterventionParticipant.DoesNotExist:
 
                     issue_list.append({
@@ -317,6 +308,17 @@ def update_emails(issue_list):
                             email list',
                         'field': 'participant id'
                     })
+
+                    continue
+
+                # This had to be refactored from Email.get_or_create()
+                # for the ContentType Generic Relationship implementation.
+                try:
+                    email = Email.objects.get(email=parts[1].strip())
+                except Email.DoesNotExist:
+                    email = Email(email=parts[1].strip(),
+                                  participant=participant)
+                email.save()
 
 
 def massage_number(fieldname, input_string):
