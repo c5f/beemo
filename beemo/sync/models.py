@@ -259,10 +259,17 @@ def update_phone_numbers(session, issue_list):
         try:
             participant = ControlParticipant.objects.get(pid=pid)
         except ControlParticipant.DoesNotExist:
-            participant = InterventionParticipant.objects.get(pid=pid)
-        except InterventionParticipant.DoesNotExist:
-            raise Participant.DoesNotExist('No Participant found for pid %s' %
-                                           pid)
+            try:
+                participant = InterventionParticipant.objects.get(pid=pid)
+            except InterventionParticipant.DoesNotExist:
+                issue_list.append({
+                    'participant': pid,
+                    'call_num': None,
+                    'field': 'Participant: pid',
+                    'reason': 'Unable to find Participant in database.'
+                    })
+
+                continue
 
         # Strip non-digit characters
         phone_number = ''.join([i for i in r_phone.phone if i.isdigit()])
@@ -297,19 +304,20 @@ def update_emails(issue_list):
                 try:
                     particiapnt = ControlParticipant.objects.get(pid=parts[0])
                 except ControlParticipant.DoesNotExist:
-                    participant = InterventionParticipant.objects.get(
-                        pid=parts[0])
-                except InterventionParticipant.DoesNotExist:
+                    try:
+                        participant = InterventionParticipant.objects.get(
+                            pid=parts[0])
+                    except InterventionParticipant.DoesNotExist:
 
-                    issue_list.append({
-                        'participant': parts[0],
-                        'call_num': 'Error in email list',
-                        'reason': 'Invalid InterventionParticipant ID in \
-                            email list',
-                        'field': 'participant id'
-                    })
+                        issue_list.append({
+                            'participant': parts[0],
+                            'call_num': 'Error in email list',
+                            'reason': 'Invalid InterventionParticipant ID in \
+                                email list',
+                            'field': 'participant id'
+                        })
 
-                    continue
+                        continue
 
                 # This had to be refactored from Email.get_or_create()
                 # for the ContentType Generic Relationship implementation.
@@ -348,9 +356,8 @@ def massage_number(fieldname, input_string):
 
 def update_calls(session, issue_list):
 
-    # Get a list of the intervention group's node ids
-    nids = [int(i) for (i,) in session.query(
-        RParticipant.nid).filter_by(ptype=1)]
+    # Get a list of the Participant Drupal nids.
+    nids = [int(i) for (i,) in session.query(RParticipant.nid).all()]
 
     # We are only concerned with completed calls that belong to our sample
     # group
@@ -364,7 +371,21 @@ def update_calls(session, issue_list):
         # Find the InterventionParticipant object for this call
         pid = session.query(RParticipant).filter_by(
             nid=r_call.pnid).first().pid
-        participant = InterventionParticipant.objects.get(pid=pid)
+
+        try:
+            participant = ControlParticipant.objects.get(pid=pid)
+        except ControlParticipant.DoesNotExist:
+            try:
+                participant = InterventionParticipant.objects.get(pid=pid)
+            except InterventionParticipant.DoesNotExist:
+                issue_list.append({
+                    'participant': pid,
+                    'call_num': r_call.number,
+                    'field': 'Call: Participant ID',
+                    'reason': 'Unable to locate Participant in database.'
+                    })
+
+            continue
 
         # Check if this Call object is already in our database
         try:
@@ -380,113 +401,115 @@ def update_calls(session, issue_list):
         if r_call.goal_met:
             call.goal_met = True
 
-        try:
-            call.veg_servings = massage_number(
-                'veg_servings', r_call.veg_servings)
-        except ValueError as ve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Vegetable Servings',
-                'reason': 'Value: %s' % r_call.veg_servings
-            })
+        # If this is an InterventionParticipant, update these values.
+        if type(participant) is InterventionParticipant:
+            try:
+                call.veg_servings = massage_number(
+                    'veg_servings', r_call.veg_servings)
+            except ValueError as ve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Vegetable Servings',
+                    'reason': 'Value: %s' % r_call.veg_servings
+                })
 
-            call.veg_servings = 0
-        except RequiredValueError as rve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Vegetable Servings',
-                'reason': rve.msg
-            })
+                call.veg_servings = 0
+            except RequiredValueError as rve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Vegetable Servings',
+                    'reason': rve.msg
+                })
 
-            call.veg_servings = 0
+                call.veg_servings = 0
 
-        try:
-            call.fruit_servings = massage_number(
-                'fruit_servings', r_call.fruit_servings)
-        except ValueError as ve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Fruit Servings',
-                'reason': 'Value: %s' % r_call.fruit_servings
-            })
+            try:
+                call.fruit_servings = massage_number(
+                    'fruit_servings', r_call.fruit_servings)
+            except ValueError as ve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Fruit Servings',
+                    'reason': 'Value: %s' % r_call.fruit_servings
+                })
 
-            call.fruit_servings = 0
-        except RequiredValueError as rve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Fruit Servings',
-                'reason': rve.msg
-            })
+                call.fruit_servings = 0
+            except RequiredValueError as rve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Fruit Servings',
+                    'reason': rve.msg
+                })
 
-            call.fruit_servings = 0
+                call.fruit_servings = 0
 
-        try:
-            call.fiber_grams = massage_number(
-                'fiber_grams', r_call.fiber_grams)
-        except ValueError as ve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Fiber Grams',
-                'reason': 'Value: %s' % r_call.fiber_grams
-            })
+            try:
+                call.fiber_grams = massage_number(
+                    'fiber_grams', r_call.fiber_grams)
+            except ValueError as ve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Fiber Grams',
+                    'reason': 'Value: %s' % r_call.fiber_grams
+                })
 
-            call.fiber_grams = 0
-        except RequiredValueError as rve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Fiber Grams',
-                'reason': rve.msg
-            })
+                call.fiber_grams = 0
+            except RequiredValueError as rve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Fiber Grams',
+                    'reason': rve.msg
+                })
 
-            call.fiber_grams = 0
+                call.fiber_grams = 0
 
-        try:
-            call.fat_grams = massage_number('fat_grams', r_call.fat_grams)
-        except ValueError as ve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Fat Grams',
-                'reason': 'Value: %s' % r_call.fat_grams
-            })
+            try:
+                call.fat_grams = massage_number('fat_grams', r_call.fat_grams)
+            except ValueError as ve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Fat Grams',
+                    'reason': 'Value: %s' % r_call.fat_grams
+                })
 
-            call.fat_grams = 0
-        except RequiredValueError as rve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Fat Grams',
-                'reason': rve.msg
-            })
+                call.fat_grams = 0
+            except RequiredValueError as rve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Fat Grams',
+                    'reason': rve.msg
+                })
 
-            call.fat_grams = 0
+                call.fat_grams = 0
 
-        try:
-            call.steps = massage_number('steps', r_call.steps)
-        except ValueError as ve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Steps',
-                'reason': 'Value: %s' % r_call.steps
-            })
+            try:
+                call.steps = massage_number('steps', r_call.steps)
+            except ValueError as ve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Steps',
+                    'reason': 'Value: %s' % r_call.steps
+                })
 
-            call.steps = 0
-        except RequiredValueError as rve:
-            issue_list.append({
-                'participant': participant.pid,
-                'call_num': int(r_call.number),
-                'field': 'Call: Steps',
-                'reason': rve.msg
-            })
+                call.steps = 0
+            except RequiredValueError as rve:
+                issue_list.append({
+                    'participant': participant.pid,
+                    'call_num': int(r_call.number),
+                    'field': 'Call: Steps',
+                    'reason': rve.msg
+                })
 
-            call.steps = 0
+                call.steps = 0
 
         call.save()
 
@@ -500,15 +523,30 @@ def update_problems(session, issue_list):
     for r_problem in session.query(RProblem).filter(
             RProblem.participant_nid.in_(nids)):
 
-        # Find the InterventionParticipant for this problem
+        # Find the Participant object for this problem.
         pid = session.query(RParticipant).filter_by(
             nid=r_problem.participant_nid).first().pid
-        participant = InterventionParticipant.objects.get(pid=pid)
+
+        try:
+            participant = ControlParticipant.objects.get(pid=pid)
+
+        except ControlParticipant.DoesNotExist:
+            try:
+                participant = InterventionParticipant.objects.get(pid=pid)
+            except InterventionParticipant.DoesNotExist:
+                issue_list.append({
+                    'participant': pid,
+                    'call_num': None,
+                    'field': 'ParticipantProblem: Participant',
+                    'reason': 'Unable to locate Participant in database.'
+                    })
+
+                continue
 
         r_date = datetime.datetime.strptime(
             r_problem.date, '%Y-%m-%dT%H:%M:%S').date()
 
-        # Check for an existing problem
+        # Check for an existing problem.
         try:
             problem = ParticipantProblem.objects.get(
                 participant_pid=participant.pid, date=r_date)
