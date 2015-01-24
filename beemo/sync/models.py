@@ -246,9 +246,8 @@ def update_intervention_participants(session, issue_list):
 
 def update_phone_numbers(session, issue_list):
 
-    # Get a list of the intervention group's node ids
-    nids = [int(i) for (i,) in session.query(
-        RParticipant.nid).filter_by(ptype=1)]
+    # Get a list of the all Participant Drupal nids.
+    nids = [int(i) for (i,) in session.query(RParticipant.nid).all()]
 
     for r_phone in session.query(RPhone).filter(RPhone.nid.in_(nids)):
 
