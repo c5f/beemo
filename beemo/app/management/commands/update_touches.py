@@ -3,7 +3,7 @@ from imapclient import IMAPClient
 
 from django.core.management.base import BaseCommand
 
-from beemo.settings import GMAIL_INFO
+from beemo.settings import GMAIL_ACCTS
 from beemo.settings import TWILIO_INFO
 
 from app.models import InterventionParticipant
@@ -89,13 +89,18 @@ def update_sms_counts(participant):
 
 def update_technology_touches():
 
+    update_intervention_technology_touches()
+
+
+def update_intervention_technology_touches():
+
     gmail = IMAPClient(
         'imap.gmail.com',
         use_uid=True,
         ssl=True
     )
 
-    gmail.login(GMAIL_INFO['user'], GMAIL_INFO['pass'])
+    gmail.login(*GMAIL_ACCTS['intervention'])
     gmail.select_folder('[Gmail]/All Mail')
 
     for participant in InterventionParticipant.objects.all():

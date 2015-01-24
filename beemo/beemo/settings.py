@@ -2,9 +2,8 @@ import os
 
 # Twilio API information
 TWILIO_INFO = {
-    'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID', 'BEEMO_TWILIO_ACCOUNT_SID'),
-    'token': os.environ.get('BEEMO_TWILIO_AUTH_TOKEN', 'BEEMO_TWILIO_AUTH_TOKEN')
-}
+    'sid': os.environ.get('BEEMO_TWILIO_ACCOUNT_SID'),
+    'token': os.environ.get('BEEMO_TWILIO_AUTH_TOKEN')}
 
 # Gmail IMAP information
 GMAIL_ACCTS = {
