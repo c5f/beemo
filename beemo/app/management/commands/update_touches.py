@@ -15,16 +15,18 @@ twilio_base_url = 'https://api.twilio.com/2010-04-01/Accounts/%s/' %\
 twilio_auth = (TWILIO_INFO['sid'], TWILIO_INFO['token'])
 
 
-def update_email_counts(participant, server):
+def update_email_counts(participant, server, gmail_cutoff):
 
     emails_in = 0
     emails_out = 0
 
     for email in participant.emails.all():
-        messages = server.search('FROM %s' % email.email)
+        messages = server.gmail_search('from:%s before:%s' %\
+            (email.email, gmail_cutoff))
         emails_out += len(messages)
 
-        messages = server.search('TO %s' % email.email)
+        messages = server.gmail_search('to:%s before:%s' %\
+            (email.email, gmail_cutoff))
         emails_in += len(messages)
 
     participant.emails_in = emails_in
@@ -108,8 +110,13 @@ def update_control_technology_touches(duration):
 
     for participant in ControlParticipant.objects.all():
 
-        update_email_counts(participant, gmail)
         update_call_counts(participant)
+        cutoff_date = participant.creation_date + duration
+
+        # Gmail cutoff string YYYY/MM/DD
+        gmail_cutoff = cutoff_date.strftime('%Y/%m/%d')
+
+        update_email_counts(participant, gmail, gmail_cutoff)
 
         if participant.sms_number:
             update_sms_counts(participant)
